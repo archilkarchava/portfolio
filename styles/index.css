@@ -1,0 +1,19 @@
+@tailwind base;
+
+html,
+body,
+#__next {
+  @apply w-full h-full p-0 m-0 font-body;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+@tailwind components;
+
+.btn-blue {
+  @apply px-4 py-2 font-bold text-white bg-blue-500 rounded;
+}
+
+@tailwind utilities;
