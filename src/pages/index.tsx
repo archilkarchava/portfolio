@@ -1,4 +1,5 @@
-import Layout from '../components/Layout'
+import Github from 'assets/github.svg'
+import Layout from 'components/Layout'
 
 export const Home: React.FC = () => {
   return (
@@ -27,11 +28,12 @@ export const Home: React.FC = () => {
             hello@archil.dev
           </a>{' '}
           <a
+            title="My Github"
             href="https://github.com/archilkarchava"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <img src="/github.svg" alt="Github Logo" className="h-5 md:h-7" />
+            <Github fill="currentColor" className="w-5 h-5 md:w-7 md:h-7" />
           </a>
         </footer>
       </div>
