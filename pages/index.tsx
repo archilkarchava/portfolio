@@ -1,14 +1,10 @@
-import Head from 'next/head'
+import Layout from '../components/Layout'
 
 export const Home: React.FC = () => {
   return (
-    <div className="flex flex-col items-center justify-center h-full p-10">
-      <Head>
-        <title>Portfolio</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+    <Layout className="flex flex-col items-center justify-center h-full p-10">
       <div>
-        <main>
+        <div>
           <h1 className="text-3xl font-bold leading-tight sm:text-5xl md:text-6xl">
             Archil Karchava
           </h1>
@@ -32,7 +28,7 @@ export const Home: React.FC = () => {
           </a>
         </footer>
       </div>
-    </div>
+    </Layout>
   )
 }
 
