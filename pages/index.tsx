@@ -2,8 +2,8 @@ import Layout from '../components/Layout'
 
 export const Home: React.FC = () => {
   return (
-    <Layout className="flex flex-col items-center justify-center h-full p-10">
-      <div>
+    <Layout className="flex flex-col items-center justify-center h-full">
+      <div className="max-w-4xl p-10">
         <div>
           <h1 className="text-3xl font-bold leading-tight sm:text-5xl md:text-6xl">
             Archil Karchava
