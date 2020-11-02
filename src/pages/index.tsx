@@ -1,9 +1,8 @@
-import Github from 'assets/github.svg'
-import Layout from 'components/Layout'
+import GithubIcon from 'assets/github.svg'
 
 export const Home: React.FC = () => {
   return (
-    <Layout className="flex flex-col items-center justify-center h-full">
+    <main className="flex flex-col items-center justify-center h-full">
       <div className="max-w-4xl p-10">
         <div>
           <h1 className="text-3xl font-bold leading-tight sm:text-5xl md:text-6xl">
@@ -15,8 +14,23 @@ export const Home: React.FC = () => {
           <div className="my-6 text-lg sm:text-xl md:text-2xl">
             <h3 className="font-semibold">Technologies I use:</h3>
             <p>
-              React • Redux • TypeScript • JavaScript • HTML • CSS • SASS •
-              Webpack • REST • GraphQL • Go • Node.js • PostgreSQL
+              {[
+                'React',
+                'Redux',
+                'TypeScript',
+                'JavaScript',
+                'HTML',
+                'CSS',
+                'SASS',
+                'Webpack',
+                'REST',
+                'GraphQL',
+                'Go',
+                'Node.js',
+                'Express',
+                'NestJS',
+                'PostgreSQL',
+              ].join(' • ')}
             </p>
           </div>
         </div>
@@ -33,11 +47,11 @@ export const Home: React.FC = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <Github fill="currentColor" className="w-5 h-5 md:w-7 md:h-7" />
+            <GithubIcon fill="currentColor" className="w-5 h-5 md:w-7 md:h-7" />
           </a>
         </footer>
       </div>
-    </Layout>
+    </main>
   )
 }
 
