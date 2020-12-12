@@ -1,6 +1,13 @@
 import GithubIcon from 'assets/github.svg'
+import fsp from 'fs/promises'
+import { GetStaticProps } from 'next'
 
-export const Home: React.FC = () => {
+interface Props {
+  technologies: string[]
+  contactEmail: string
+}
+
+export const Home: React.FC<Props> = ({ technologies, contactEmail }) => {
   return (
     <main className="flex flex-col items-center justify-center h-full">
       <div className="max-w-4xl p-10">
@@ -13,33 +20,15 @@ export const Home: React.FC = () => {
           </h2>
           <div className="my-6 text-lg sm:text-xl md:text-2xl">
             <h3 className="font-semibold">Technologies I use:</h3>
-            <p>
-              {[
-                'React',
-                'Redux',
-                'TypeScript',
-                'JavaScript',
-                'HTML',
-                'CSS',
-                'SASS',
-                'Webpack',
-                'REST',
-                'GraphQL',
-                'Go',
-                'Node.js',
-                'Express',
-                'NestJS',
-                'PostgreSQL',
-              ].join(' • ')}
-            </p>
+            <span>{technologies.join(' • ')}</span>
           </div>
         </div>
         <footer className="flex items-center">
           <a
-            href="mailto:hello@archil.dev"
+            href={`mailto:${contactEmail}`}
             className="mr-3 text-xl md:mr-4 md:text-2xl"
           >
-            hello@archil.dev
+            {contactEmail}
           </a>{' '}
           <a
             title="My Github"
@@ -53,6 +42,23 @@ export const Home: React.FC = () => {
       </div>
     </main>
   )
+}
+
+export const getStaticProps: GetStaticProps = async () => {
+  let rawData: string
+  try {
+    rawData = await fsp.readFile('src/data/data.json', { encoding: 'utf8' })
+  } catch (error) {
+    throw new Error(error)
+  }
+  const { technologies, contactEmail } = JSON.parse(rawData)
+
+  return {
+    props: {
+      technologies,
+      contactEmail,
+    },
+  }
 }
 
 export default Home
