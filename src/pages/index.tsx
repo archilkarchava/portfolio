@@ -1,5 +1,5 @@
 import GithubIcon from '@assets/github.svg'
-import fsp from 'fs/promises'
+import { promises as fsp } from 'fs'
 import { GetStaticProps } from 'next'
 
 interface Props {
