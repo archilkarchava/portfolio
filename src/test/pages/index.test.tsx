@@ -1,17 +1,16 @@
 import React from 'react'
-import { render, fireEvent } from '../testUtils'
 import { Home } from '../../pages/index'
+import { render } from '../testUtils'
 
 describe('Home page', () => {
-  it('matches snapshot', () => {
-    const { asFragment } = render(<Home />, {})
-    expect(asFragment()).toMatchSnapshot()
-  })
+  const technologies = ['React', 'Vue', 'Svelte']
+  const contactEmail = 'test@test.dev'
+  const HomeComponent = (
+    <Home technologies={technologies} contactEmail={contactEmail} />
+  )
 
-  it('clicking button triggers alert', () => {
-    const { getByText } = render(<Home />, {})
-    window.alert = jest.fn()
-    fireEvent.click(getByText('Test Button'))
-    expect(window.alert).toHaveBeenCalledWith('With typescript and Jest')
+  it('matches snapshot', () => {
+    const { asFragment } = render(HomeComponent, {})
+    expect(asFragment()).toMatchSnapshot()
   })
 })
