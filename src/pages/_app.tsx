@@ -1,7 +1,6 @@
 import '@styles/index.css'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
-import 'preact/debug'
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
