@@ -9,8 +9,8 @@ interface Props {
 
 export const Home: React.FC<Props> = ({ technologies, contactEmail }) => {
   return (
-    <div className="flex flex-col items-center justify-center h-full">
-      <div className="max-w-4xl p-10">
+    <div className="flex items-center justify-center w-full h-full">
+      <div className="max-w-4xl p-10 m-auto">
         <div>
           <h1 className="text-3xl font-bold leading-tight sm:text-5xl md:text-6xl">
             Archil Karchava
