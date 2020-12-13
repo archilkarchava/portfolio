@@ -93,8 +93,8 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
   try {
     const res = await client.query({
       query: gql`
-        query PinnedRepositories {
-          repositoryOwner(login: "${githubLogin}") {
+        query PinnedRepositories($login: String!) {
+          repositoryOwner(login: $login) {
             ... on User {
               pinnedItems(first: 6) {
                 edges {
@@ -112,6 +112,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
           }
         }
       `,
+      variables: { login: githubLogin },
     })
     data = res.data
   } catch (error) {
