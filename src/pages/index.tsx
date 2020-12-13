@@ -126,6 +126,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
     props: {
       pinnedRepositories,
     },
+    revalidate: 1,
   }
 }
 
