@@ -3,11 +3,41 @@ import { Home } from '../../pages/index'
 import { render } from '../testUtils'
 
 describe('Home page', () => {
-  const technologies = ['React', 'Vue', 'Svelte']
-  const contactEmail = 'test@test.dev'
-  const HomeComponent = (
-    <Home technologies={technologies} contactEmail={contactEmail} />
-  )
+  const pinnedRepositories = [
+    {
+      __typename: 'Repository' as const,
+      id: 'MDEwOlJlcG9zaXRvcnkyNjQwMDQyOTU=',
+      name: 'astragal-gatsby',
+      descriptionHTML:
+        '<div>E-commerce website built using Gatsby (React, TypeScript) and serverless</div>',
+      url: 'https://github.com/archilkarchava/astragal-gatsby',
+    },
+    {
+      __typename: 'Repository' as const,
+      id: 'MDEwOlJlcG9zaXRvcnkyNjkyNjEyNzU=',
+      name: 'astragal-sanity-studio',
+      descriptionHTML:
+        '<div>Admin panel for <a href="https://astragal74.ru" rel="nofollow">https://astragal74.ru</a>\n' +
+        '</div>',
+      url: 'https://github.com/archilkarchava/astragal-sanity-studio',
+    },
+    {
+      __typename: 'Repository' as const,
+      id: 'MDEwOlJlcG9zaXRvcnkyMTY4ODU0MDU=',
+      name: 'furnitur',
+      descriptionHTML:
+        '<div>Furnitur is a cross-platform (IOS, Android) e-commerce application built using Flutter framework and Firebase backend.</div>',
+      url: 'https://github.com/archilkarchava/furnitur',
+    },
+    {
+      __typename: 'Repository' as const,
+      id: 'MDEwOlJlcG9zaXRvcnkyMTc2NjAyMDY=',
+      name: 'furnitur-firebase',
+      descriptionHTML: '<div>Firebase backend for Furnitur app.</div>',
+      url: 'https://github.com/archilkarchava/furnitur-firebase',
+    },
+  ]
+  const HomeComponent = <Home pinnedRepositories={pinnedRepositories} />
 
   it('matches snapshot', () => {
     const { asFragment } = render(HomeComponent, {})
