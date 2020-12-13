@@ -46,7 +46,7 @@ export const Home: React.FC<Props> = ({ pinnedRepositories }) => {
                 key={repo.id}
                 className="flex-grow w-full p-4 m-2 border border-gray-300 rounded-lg md:w-5/12 dark:border-gray-700"
               >
-                <div className="">
+                <div>
                   <a
                     href={repo.url}
                     target="_blank"
