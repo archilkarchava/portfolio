@@ -3,7 +3,7 @@
 html,
 body,
 #__next {
-  @apply w-full h-full p-0 m-0 font-sans text-gray-900 transition-colors duration-300 ease-in-out bg-gray-100 dark:bg-gray-800 dark:text-gray-200;
+  @apply w-full h-full p-0 m-0 font-sans text-gray-900 transition-colors duration-300 ease-in-out bg-gray-50 dark:bg-gray-800 dark:text-gray-200;
 }
 
 * {
