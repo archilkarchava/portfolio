@@ -15,7 +15,9 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta name="theme-color" content="#ffffff" />
         <title>Archil Karchava</title>
       </Head>
-      <Component {...pageProps} />
+      <main className="w-full h-full">
+        <Component {...pageProps} />
+      </main>
     </>
   )
 }
