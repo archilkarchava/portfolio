@@ -1,6 +1,7 @@
 import { ApolloClient, gql, InMemoryCache } from '@apollo/client'
 import GithubIcon from '@assets/github.svg'
 import { GetStaticProps } from 'next'
+import React from 'react'
 
 const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? 'hello@archil.dev'
 const githubLogin = process.env.NEXT_PUBLIC_GITHUB_LOGIN ?? 'archilkarchava'
@@ -12,6 +13,7 @@ interface Props {
     name: string
     descriptionHTML: string
     url: string
+    homepageUrl: string
   }[]
 }
 
@@ -47,14 +49,34 @@ export const Home: React.FC<Props> = ({ pinnedRepositories }) => {
                 className="flex-grow w-full p-4 m-2 border border-gray-300 rounded-lg md:w-5/12 dark:border-gray-700"
               >
                 <div>
-                  <a
-                    href={repo.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-lg font-bold"
-                  >
-                    <span>{repo.name}</span>
-                  </a>
+                  <div className="flex flex-row flex-grow">
+                    {repo.homepageUrl && (
+                      <div className="flex flex-col items-start mr-2 text-lg font-semibold">
+                        <span>website: </span>
+                        <span>code: </span>
+                      </div>
+                    )}
+                    <div className="flex flex-col flex-grow text-lg font-bold">
+                      {repo.homepageUrl && (
+                        <div>
+                          <a
+                            href={repo.homepageUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            <span>{repo.homepageUrl}</span>
+                          </a>
+                        </div>
+                      )}
+                      <a
+                        href={repo.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <span>{repo.name}</span>
+                      </a>
+                    </div>
+                  </div>
                   <div
                     className="text-base break-words"
                     dangerouslySetInnerHTML={{ __html: repo.descriptionHTML }}
@@ -104,6 +126,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
                       name
                       descriptionHTML
                       url
+                      homepageUrl
                     }
                   }
                 }

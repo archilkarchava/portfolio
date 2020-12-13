@@ -9,8 +9,9 @@ describe('Home page', () => {
       id: 'MDEwOlJlcG9zaXRvcnkyNjQwMDQyOTU=',
       name: 'astragal-gatsby',
       descriptionHTML:
-        '<div>E-commerce website built using Gatsby (React, TypeScript) and serverless</div>',
+        '<div>E-commerce website built using Gatsby (React, TypeScript) and serverless.</div>',
       url: 'https://github.com/archilkarchava/astragal-gatsby',
+      homepageUrl: 'https://astragal74.ru',
     },
     {
       __typename: 'Repository' as const,
@@ -20,6 +21,7 @@ describe('Home page', () => {
         '<div>Admin panel for <a href="https://astragal74.ru" rel="nofollow">https://astragal74.ru</a>\n' +
         '</div>',
       url: 'https://github.com/archilkarchava/astragal-sanity-studio',
+      homepageUrl: '',
     },
     {
       __typename: 'Repository' as const,
@@ -28,6 +30,7 @@ describe('Home page', () => {
       descriptionHTML:
         '<div>Furnitur is a cross-platform (IOS, Android) e-commerce application built using Flutter framework and Firebase backend.</div>',
       url: 'https://github.com/archilkarchava/furnitur',
+      homepageUrl: '',
     },
     {
       __typename: 'Repository' as const,
@@ -35,6 +38,7 @@ describe('Home page', () => {
       name: 'furnitur-firebase',
       descriptionHTML: '<div>Firebase backend for Furnitur app.</div>',
       url: 'https://github.com/archilkarchava/furnitur-firebase',
+      homepageUrl: null,
     },
   ]
   const HomeComponent = <Home pinnedRepositories={pinnedRepositories} />
