@@ -41,7 +41,7 @@ export const Home: React.FC<Props> = ({ pinnedRepositories }) => {
           </div>
         </div>
         <div className="my-8">
-          <h1 className="mb-2 text-2xl sm:text-4xl">Some of my projects:</h1>
+          <h1 className="mb-2 text-2xl sm:text-3xl">Some of my projects:</h1>
           <div className="flex flex-wrap -m-2">
             {pinnedRepositories.map((repo) => (
               <div
