@@ -1,6 +1,6 @@
 {
-  "name": "with-typescript-eslint-jest",
-  "author": "@erikdstock",
+  "name": "portfolio",
+  "author": "Archil Karchava <archil1997@gmail.com>",
   "license": "MIT",
   "version": "1.0.0",
   "scripts": {
