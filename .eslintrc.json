@@ -43,5 +43,6 @@
         "allow": ["warn", "error"]
       }
     ]
-  }
+  },
+  "ignorePatterns": ["**/types/generated.d.ts"]
 }

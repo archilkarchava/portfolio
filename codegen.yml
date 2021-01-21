@@ -1,0 +1,13 @@
+schema:
+  - ${GITHUB_GRAPHQL_API_ENDPOINT}:
+      headers:
+        Authorization: bearer ${GITHUB_TOKEN}
+documents: 'src/**/!(*.d).{ts,tsx}'
+generates:
+  ./src/schema.graphql:
+    plugins:
+      - schema-ast
+  ./src/types/generated.d.ts:
+    plugins:
+      - typescript
+      - typescript-operations

@@ -4,7 +4,8 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": false,
+    "strict": true,
+    "strictNullChecks": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
@@ -15,7 +16,11 @@
     "jsx": "preserve",
     "baseUrl": "./src",
     "paths": {
-      "@*": ["/*"]
+      "@/components/*": ["components/*"],
+      "@/pages/*": ["pages/*"],
+      "@/assets/*": ["assets/*"],
+      "@/styles/*": ["styles/*"],
+      "@/types/*": ["types/*"]
     }
   },
   "exclude": ["node_modules", ".next", "out"],

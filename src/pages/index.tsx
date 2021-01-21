@@ -1,5 +1,6 @@
+import GithubIcon from '@/assets/github.svg'
+import { PinnedRepositoriesQuery, Repository } from '@/types/generated'
 import { ApolloClient, gql, InMemoryCache } from '@apollo/client'
-import GithubIcon from '@assets/github.svg'
 import { GetStaticProps } from 'next'
 import React from 'react'
 
@@ -7,14 +8,10 @@ const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? 'hello@archil.dev'
 const githubLogin = process.env.NEXT_PUBLIC_GITHUB_LOGIN ?? 'archilkarchava'
 
 interface Props {
-  pinnedRepositories: {
-    __typename: 'Repository'
-    id: string
-    name: string
-    descriptionHTML: string
-    url: string
-    homepageUrl: string
-  }[]
+  pinnedRepositories?: Pick<
+    Repository,
+    'id' | 'name' | 'descriptionHTML' | 'url' | 'homepageUrl'
+  >[]
 }
 
 export const Home: React.FC<Props> = ({ pinnedRepositories }) => {
@@ -40,52 +37,54 @@ export const Home: React.FC<Props> = ({ pinnedRepositories }) => {
             </a>
           </div>
         </div>
-        <div className="my-8">
-          <h1 className="mb-2 text-2xl sm:text-3xl">Some of my projects:</h1>
-          <div className="flex flex-wrap -m-2">
-            {pinnedRepositories.map((repo) => (
-              <div
-                key={repo.id}
-                className="flex-grow w-full p-4 m-2 border border-gray-300 rounded-lg md:w-5/12 dark:border-gray-700"
-              >
-                <div>
-                  <div className="flex flex-row flex-grow">
-                    {repo.homepageUrl && (
-                      <div className="flex flex-col items-start mr-2 text-lg font-semibold">
-                        <span>website: </span>
-                        <span>code: </span>
-                      </div>
-                    )}
-                    <div className="flex flex-col flex-grow text-lg font-bold">
+        {pinnedRepositories && (
+          <div className="my-8">
+            <h1 className="mb-2 text-2xl sm:text-3xl">Some of my projects:</h1>
+            <div className="flex flex-wrap -m-2">
+              {pinnedRepositories.map((repo) => (
+                <div
+                  key={repo.id}
+                  className="flex-grow w-full p-4 m-2 border border-gray-300 rounded-lg md:w-5/12 dark:border-gray-700"
+                >
+                  <div>
+                    <div className="flex flex-row flex-grow">
                       {repo.homepageUrl && (
-                        <div>
-                          <a
-                            href={repo.homepageUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            <span>{repo.homepageUrl}</span>
-                          </a>
+                        <div className="flex flex-col items-start mr-2 text-lg font-semibold">
+                          <span>website: </span>
+                          <span>code: </span>
                         </div>
                       )}
-                      <a
-                        href={repo.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <span>{repo.name}</span>
-                      </a>
+                      <div className="flex flex-col flex-grow text-lg font-bold">
+                        {repo.homepageUrl && (
+                          <div>
+                            <a
+                              href={repo.homepageUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              <span>{repo.homepageUrl}</span>
+                            </a>
+                          </div>
+                        )}
+                        <a
+                          href={repo.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <span>{repo.name}</span>
+                        </a>
+                      </div>
                     </div>
+                    <div
+                      className="text-base break-words"
+                      dangerouslySetInnerHTML={{ __html: repo.descriptionHTML }}
+                    />
                   </div>
-                  <div
-                    className="text-base break-words"
-                    dangerouslySetInnerHTML={{ __html: repo.descriptionHTML }}
-                  />
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   )
@@ -98,22 +97,15 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
   const client = new ApolloClient({
     uri: GITHUB_GRAPHQL_API_ENDPOINT,
     headers: {
-      Authorization: token ? `bearer ${token}` : null,
+      Authorization: token ? `bearer ${token}` : '',
     },
     cache: new InMemoryCache(),
   })
 
-  let data: {
-    repositoryOwner: {
-      pinnedItems: {
-        edges: {
-          node: Props['pinnedRepositories'][number]
-        }[]
-      }
-    }
-  }
+  let data: PinnedRepositoriesQuery
+
   try {
-    const res = await client.query({
+    const res = await client.query<PinnedRepositoriesQuery>({
       query: gql`
         query PinnedRepositories($login: String!) {
           repositoryOwner(login: $login) {
@@ -142,9 +134,21 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
     throw new Error(error)
   }
 
-  const pinnedRepositories = data?.repositoryOwner.pinnedItems.edges.map(
-    (edge) => edge.node
-  )
+  let pinnedRepositories: Pick<
+    Repository,
+    'id' | 'name' | 'descriptionHTML' | 'url' | 'homepageUrl'
+  >[] = []
+
+  if (data?.repositoryOwner?.__typename === 'User') {
+    pinnedRepositories =
+      data.repositoryOwner.pinnedItems.edges?.reduce((acc, edge) => {
+        const node = edge?.node
+        if (node?.__typename === 'Repository') {
+          acc.push(node)
+        }
+        return acc
+      }, pinnedRepositories) ?? []
+  }
 
   return {
     props: {
