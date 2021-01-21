@@ -15,7 +15,7 @@
     "format": "prettier --write .",
     "lint": "eslint --fix . --ext ts --ext tsx --ext js",
     "test": "jest",
-    "test-all": "yarn run lint && yarn run type-check && yarn run test"
+    "test-all": "yarn run lint && yarn run types:check && yarn run test"
   },
   "husky": {
     "hooks": {
