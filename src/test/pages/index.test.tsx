@@ -5,7 +5,6 @@ import { render } from '../testUtils'
 describe('Home page', () => {
   const pinnedRepositories = [
     {
-      __typename: 'Repository' as const,
       id: 'MDEwOlJlcG9zaXRvcnkyNjQwMDQyOTU=',
       name: 'astragal-gatsby',
       descriptionHTML:
@@ -14,7 +13,6 @@ describe('Home page', () => {
       homepageUrl: 'https://astragal74.ru',
     },
     {
-      __typename: 'Repository' as const,
       id: 'MDEwOlJlcG9zaXRvcnkyNjkyNjEyNzU=',
       name: 'astragal-sanity-studio',
       descriptionHTML:
@@ -24,7 +22,6 @@ describe('Home page', () => {
       homepageUrl: '',
     },
     {
-      __typename: 'Repository' as const,
       id: 'MDEwOlJlcG9zaXRvcnkyMTY4ODU0MDU=',
       name: 'furnitur',
       descriptionHTML:
@@ -33,7 +30,6 @@ describe('Home page', () => {
       homepageUrl: '',
     },
     {
-      __typename: 'Repository' as const,
       id: 'MDEwOlJlcG9zaXRvcnkyMTc2NjAyMDY=',
       name: 'furnitur-firebase',
       descriptionHTML: '<div>Firebase backend for Furnitur app.</div>',
@@ -41,7 +37,13 @@ describe('Home page', () => {
       homepageUrl: null,
     },
   ]
-  const HomeComponent = <Home pinnedRepositories={pinnedRepositories} />
+  const HomeComponent = (
+    <Home
+      name="Ivan Ivanov"
+      email="test@mail.com"
+      pinnedRepositories={pinnedRepositories}
+    />
+  )
 
   it('matches snapshot', () => {
     const { asFragment } = render(HomeComponent, {})
