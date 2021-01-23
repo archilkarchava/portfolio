@@ -1,16 +1,29 @@
 import GithubIcon from '@/assets/github.svg'
-import { PinnedRepositoriesQuery, Repository } from '@/types/generated'
-import { ApolloClient, gql, InMemoryCache } from '@apollo/client'
+import { getPinnedRepositories } from '@/lib/api'
+import { contactEmail, githubLogin } from '@/lib/constants'
+import type { Awaited } from '@/types/utils'
 import { GetStaticProps } from 'next'
 import React from 'react'
 
-const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? 'hello@archil.dev'
-const githubLogin = process.env.NEXT_PUBLIC_GITHUB_LOGIN ?? 'archilkarchava'
-
 interface Props {
-  pinnedRepositories?: Pick<
-    Repository,
-    'id' | 'name' | 'descriptionHTML' | 'url' | 'homepageUrl'
+  pinnedRepositories?: Extract<
+    NonNullable<
+      NonNullable<
+        NonNullable<
+          Extract<
+            Awaited<
+              ReturnType<typeof getPinnedRepositories>
+            >['data']['repositoryOwner'],
+            {
+              __typename?: 'User'
+            }
+          >['pinnedItems']['edges']
+        >[number]
+      >['node']
+    >,
+    {
+      __typename?: 'Repository'
+    }
   >[]
 }
 
@@ -91,64 +104,26 @@ export const Home: React.FC<Props> = ({ pinnedRepositories }) => {
 }
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
-  const GITHUB_GRAPHQL_API_ENDPOINT =
-    process.env.GITHUB_GRAPHQL_API_ENDPOINT ?? 'https://api.github.com/graphql'
-  const token = process.env.GITHUB_TOKEN
-  const client = new ApolloClient({
-    uri: GITHUB_GRAPHQL_API_ENDPOINT,
-    headers: {
-      Authorization: token ? `bearer ${token}` : '',
-    },
-    cache: new InMemoryCache(),
-  })
-
-  let data: PinnedRepositoriesQuery
-
+  let data
   try {
-    const res = await client.query<PinnedRepositoriesQuery>({
-      query: gql`
-        query PinnedRepositories($login: String!) {
-          repositoryOwner(login: $login) {
-            ... on User {
-              pinnedItems(first: 6) {
-                edges {
-                  node {
-                    ... on Repository {
-                      id
-                      name
-                      descriptionHTML
-                      url
-                      homepageUrl
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      `,
-      variables: { login: githubLogin },
-    })
+    const res = await getPinnedRepositories(githubLogin)
     data = res.data
   } catch (error) {
     throw new Error(error)
   }
 
-  let pinnedRepositories: Pick<
-    Repository,
-    'id' | 'name' | 'descriptionHTML' | 'url' | 'homepageUrl'
-  >[] = []
-
-  if (data?.repositoryOwner?.__typename === 'User') {
-    pinnedRepositories =
-      data.repositoryOwner.pinnedItems.edges?.reduce((acc, edge) => {
-        const node = edge?.node
-        if (node?.__typename === 'Repository') {
-          acc.push(node)
-        }
-        return acc
-      }, pinnedRepositories) ?? []
-  }
+  const pinnedRepositories =
+    data?.repositoryOwner?.__typename === 'User'
+      ? data.repositoryOwner.pinnedItems.edges?.reduce<
+          NonNullable<Props['pinnedRepositories']>
+        >((acc, edge) => {
+          const node = edge?.node
+          if (node?.__typename === 'Repository') {
+            acc.push(node)
+          }
+          return acc
+        }, [])
+      : undefined
 
   return {
     props: {
