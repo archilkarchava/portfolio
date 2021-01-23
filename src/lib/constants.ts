@@ -1,10 +1,11 @@
 export const githubGraphqlApiEndpoint =
   process.env.GITHUB_GRAPHQL_API_ENDPOINT || 'https://api.github.com/graphql'
 
-export const githubToken = process.env.GITHUB_TOKEN
+export const GITHUB_TOKEN = process.env.GITHUB_TOKEN
 
-export const contactEmail =
-  process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'hello@archil.dev'
+export const FULL_NAME = process.env.NEXT_PUBLIC_FULL_NAME || ''
 
-export const githubLogin =
+export const EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL || ''
+
+export const GITHUB_LOGIN =
   process.env.NEXT_PUBLIC_GITHUB_LOGIN || 'archilkarchava'

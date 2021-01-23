@@ -1,11 +1,13 @@
 import GithubIcon from '@/assets/github.svg'
-import { getPinnedRepositories } from '@/lib/api'
-import { contactEmail, githubLogin } from '@/lib/constants'
+import { getPinnedRepositories, getProfileInfo } from '@/lib/api'
+import { EMAIL, FULL_NAME, GITHUB_LOGIN } from '@/lib/constants'
 import type { Awaited } from '@/types/utils'
 import { GetStaticProps } from 'next'
 import React from 'react'
 
 interface Props {
+  name: string
+  email: string
   pinnedRepositories: NonNullable<
     NonNullable<
       NonNullable<
@@ -15,21 +17,21 @@ interface Props {
   >[]
 }
 
-export const Home: React.FC<Props> = ({ pinnedRepositories }) => {
+export const Home: React.FC<Props> = ({ name, email, pinnedRepositories }) => {
   return (
     <div className="flex items-center justify-center w-full h-full">
       <div className="max-w-4xl p-5 m-auto">
         <div>
           <h1 className="text-4xl font-bold leading-tight sm:text-6xl">
-            Archil Karchava
+            {name}
           </h1>
           <div className="flex items-center mt-1 text-2xl sm:mt-3 sm:text-4xl">
-            <a href={`mailto:${contactEmail}`} className="mr-4">
-              {contactEmail}
+            <a href={`mailto:${email}`} className="mr-4">
+              {email}
             </a>
             <a
               title="My Github"
-              href={`https://github.com/${githubLogin}`}
+              href={`https://github.com/${GITHUB_LOGIN}`}
               target="_blank"
               rel="noopener noreferrer"
               className="text-current hover:opacity-70"
@@ -94,7 +96,7 @@ export const Home: React.FC<Props> = ({ pinnedRepositories }) => {
 export const getStaticProps: GetStaticProps<Props> = async () => {
   let data
   try {
-    const res = await getPinnedRepositories(githubLogin, 6)
+    const res = await getPinnedRepositories(GITHUB_LOGIN, 6)
     data = res.data
   } catch (error) {
     throw new Error(error)
@@ -103,8 +105,27 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
     (node) => node
   ) as Props['pinnedRepositories']
 
+  let name = FULL_NAME
+  let email = EMAIL
+
+  if (!name || !email) {
+    try {
+      const profileRes = await getProfileInfo(GITHUB_LOGIN)
+      if (!name) {
+        name = profileRes.data.user?.name || ''
+      }
+      if (!email) {
+        email = profileRes.data.user?.email || ''
+      }
+    } catch (error) {
+      throw new Error(error)
+    }
+  }
+
   return {
     props: {
+      name,
+      email,
       pinnedRepositories,
     },
     revalidate: 1,

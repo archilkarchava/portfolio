@@ -18667,3 +18667,11 @@ type PinnedRepositoriesQuery = {
     }
   }>
 }
+
+type ProfileInfoQueryVariables = Exact<{
+  login: Scalars['String']
+}>
+
+type ProfileInfoQuery = {
+  user?: Maybe<Pick<User, 'name' | 'email' | 'bioHTML'>>
+}
