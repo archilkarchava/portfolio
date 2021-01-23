@@ -6,24 +6,12 @@ import { GetStaticProps } from 'next'
 import React from 'react'
 
 interface Props {
-  pinnedRepositories?: Extract<
+  pinnedRepositories: NonNullable<
     NonNullable<
       NonNullable<
-        NonNullable<
-          Extract<
-            Awaited<
-              ReturnType<typeof getPinnedRepositories>
-            >['data']['repositoryOwner'],
-            {
-              __typename?: 'User'
-            }
-          >['pinnedItems']['edges']
-        >[number]
-      >['node']
-    >,
-    {
-      __typename?: 'Repository'
-    }
+        Awaited<ReturnType<typeof getPinnedRepositories>>['data']['user']
+      >['pinnedItems']['nodes']
+    >[number]
   >[]
 }
 
@@ -106,24 +94,14 @@ export const Home: React.FC<Props> = ({ pinnedRepositories }) => {
 export const getStaticProps: GetStaticProps<Props> = async () => {
   let data
   try {
-    const res = await getPinnedRepositories(githubLogin)
+    const res = await getPinnedRepositories(githubLogin, 6)
     data = res.data
   } catch (error) {
     throw new Error(error)
   }
-
-  const pinnedRepositories =
-    data?.repositoryOwner?.__typename === 'User'
-      ? data.repositoryOwner.pinnedItems.edges?.reduce<
-          NonNullable<Props['pinnedRepositories']>
-        >((acc, edge) => {
-          const node = edge?.node
-          if (node?.__typename === 'Repository') {
-            acc.push(node)
-          }
-          return acc
-        }, [])
-      : undefined
+  const pinnedRepositories = data.user?.pinnedItems.nodes?.filter(
+    (node) => node
+  ) as Props['pinnedRepositories']
 
   return {
     props: {
