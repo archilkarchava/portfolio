@@ -4,7 +4,7 @@ import { ApolloClient, InMemoryCache } from '@apollo/client'
 export const githubApolloClient = new ApolloClient({
   uri: githubGraphqlApiEndpoint,
   headers: {
-    Authorization: GITHUB_TOKEN ? `bearer ${GITHUB_TOKEN}` : '',
+    Authorization: GITHUB_TOKEN ? `Bearer ${GITHUB_TOKEN}` : '',
   },
   cache: new InMemoryCache(),
 })
