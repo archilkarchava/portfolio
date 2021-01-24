@@ -1,0 +1,17 @@
+schema:
+  - ${GITHUB_GRAPHQL_API_ENDPOINT}:
+      headers:
+        Authorization: Bearer ${GITHUB_TOKEN}
+documents: src/**/!(*.d).{js,jsx,ts,tsx,graphql}
+generates:
+  ./src/schema.graphql:
+    plugins:
+      - schema-ast
+  ./src/types/generated.d.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+    config:
+      skipTypename: true
+      useTypeImports: true
+      noExport: true

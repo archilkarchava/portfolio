@@ -11,7 +11,7 @@
     "export": "next export",
     "start": "next start",
     "types:check": "tsc --pretty --noEmit",
-    "types:generate": "graphql-codegen",
+    "types:generate": "cross-env DOTENV_CONFIG_PATH='./.env.local' graphql-codegen --require dotenv/config",
     "format": "prettier --write .",
     "lint": "eslint --fix . --ext ts --ext tsx --ext js",
     "test": "jest",
