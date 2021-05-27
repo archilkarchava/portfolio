@@ -3,6 +3,7 @@ import { getPinnedRepositories, getProfileInfo } from '@/lib/api'
 import { EMAIL, FULL_NAME, GITHUB_LOGIN } from '@/lib/constants'
 import type { Awaited } from '@/types/utils'
 import { GetStaticProps } from 'next'
+import Head from 'next/head'
 import React from 'react'
 
 interface Props {
@@ -19,77 +20,86 @@ interface Props {
 
 export const Home: React.FC<Props> = ({ name, email, pinnedRepositories }) => {
   return (
-    <div className="flex items-center justify-center w-full h-full">
-      <div className="max-w-4xl p-5 m-auto">
-        <div>
-          <h1 className="text-4xl font-bold leading-tight sm:text-6xl">
-            {name}
-          </h1>
-          <div className="flex items-center mt-1 text-2xl sm:mt-3 sm:text-4xl">
-            <a href={`mailto:${email}`} className="mr-4">
-              {email}
-            </a>
-            <a
-              title="My Github"
-              href={`https://github.com/${GITHUB_LOGIN}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-current hover:opacity-70"
-            >
-              <GithubIcon className="w-6 h-6 sm:w-9 sm:h-9" />
-            </a>
-          </div>
-        </div>
-        {pinnedRepositories && (
-          <div className="my-8">
-            <h1 className="mb-2 text-2xl sm:text-3xl">Some of my projects:</h1>
-            <div className="flex flex-wrap -m-2">
-              {pinnedRepositories.map((repo) => (
-                <div
-                  key={repo.id}
-                  className="flex-grow w-full p-4 m-2 border border-gray-300 rounded-lg md:w-5/12 dark:border-gray-700"
-                >
-                  <div>
-                    <div className="flex flex-row flex-grow">
-                      {repo.homepageUrl && (
-                        <div className="flex flex-col items-start mr-2 text-lg font-semibold">
-                          <span>website: </span>
-                          <span>code: </span>
-                        </div>
-                      )}
-                      <div className="flex flex-col flex-grow text-lg font-bold">
-                        {repo.homepageUrl && (
-                          <div>
-                            <a
-                              href={repo.homepageUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              <span>{repo.homepageUrl}</span>
-                            </a>
-                          </div>
-                        )}
-                        <a
-                          href={repo.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <span>{repo.name}</span>
-                        </a>
-                      </div>
-                    </div>
-                    <div
-                      className="text-base break-words"
-                      dangerouslySetInnerHTML={{ __html: repo.descriptionHTML }}
-                    />
-                  </div>
-                </div>
-              ))}
+    <>
+      <Head>
+        <title>{name}</title>
+      </Head>
+      <div className="flex items-center justify-center w-full h-full">
+        <div className="max-w-4xl p-5 m-auto">
+          <div>
+            <h1 className="text-4xl font-bold leading-tight sm:text-6xl">
+              {name}
+            </h1>
+            <div className="flex items-center mt-1 text-2xl sm:mt-3 sm:text-4xl">
+              <a href={`mailto:${email}`} className="mr-4">
+                {email}
+              </a>
+              <a
+                title="My Github"
+                href={`https://github.com/${GITHUB_LOGIN}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-current hover:opacity-70"
+              >
+                <GithubIcon className="w-6 h-6 sm:w-9 sm:h-9" />
+              </a>
             </div>
           </div>
-        )}
+          {pinnedRepositories && (
+            <div className="my-8">
+              <h1 className="mb-2 text-2xl sm:text-3xl">
+                Some of my projects:
+              </h1>
+              <div className="flex flex-wrap -m-2">
+                {pinnedRepositories.map((repo) => (
+                  <div
+                    key={repo.id}
+                    className="flex-grow w-full p-4 m-2 border border-gray-300 rounded-lg md:w-5/12 dark:border-gray-700"
+                  >
+                    <div>
+                      <div className="flex flex-row flex-grow">
+                        {repo.homepageUrl && (
+                          <div className="flex flex-col items-start mr-2 text-lg font-semibold">
+                            <span>website: </span>
+                            <span>code: </span>
+                          </div>
+                        )}
+                        <div className="flex flex-col flex-grow text-lg font-bold">
+                          {repo.homepageUrl && (
+                            <div>
+                              <a
+                                href={repo.homepageUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                <span>{repo.homepageUrl}</span>
+                              </a>
+                            </div>
+                          )}
+                          <a
+                            href={repo.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            <span>{repo.name}</span>
+                          </a>
+                        </div>
+                      </div>
+                      <div
+                        className="text-base break-words"
+                        dangerouslySetInnerHTML={{
+                          __html: repo.descriptionHTML,
+                        }}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 

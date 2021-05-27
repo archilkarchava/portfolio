@@ -1,3 +1,4 @@
+import { FULL_NAME } from '@/lib/constants'
 import '@/styles/index.css'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
@@ -13,7 +14,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           rel="stylesheet"
         />
         <meta name="theme-color" content="#ffffff" />
-        <title>Archil Karchava</title>
+        <title>{FULL_NAME}</title>
       </Head>
       <main className="w-full h-full">
         <Component {...pageProps} />
