@@ -1,9 +1,12 @@
 import GithubIcon from '@/assets/github.svg'
+import { LanguageSwitcher } from '@/components/LanguageSwitcher'
 import { getPinnedRepositories, getProfileInfo } from '@/lib/api'
 import { EMAIL, FULL_NAME, GITHUB_LOGIN } from '@/lib/constants'
 import type { Awaited } from '@/types/utils'
 import { GetStaticProps } from 'next'
 import xss from 'xss'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Head from 'next/head'
 import React from 'react'
 
@@ -21,11 +24,13 @@ interface Props {
 }
 
 export const Home: React.FC<Props> = ({ name, email, pinnedRepositories }) => {
+  const { t } = useTranslation('common')
   return (
     <>
       <Head>
         <title>{name}</title>
       </Head>
+      <LanguageSwitcher />
       <main className="flex flex-col w-full h-full">
         <div className="max-w-4xl p-5 m-auto">
           <div>
@@ -49,7 +54,7 @@ export const Home: React.FC<Props> = ({ name, email, pinnedRepositories }) => {
           </div>
           {pinnedRepositories.length > 0 && (
             <div className="mt-8">
-              <h1 className="mb-2 text-2xl">Some of my projects:</h1>
+              <h1 className="mb-2 text-2xl">{t('my-projects')}</h1>
               <div className="flex flex-wrap -m-2">
                 {pinnedRepositories.map((repo) => {
                   return (
@@ -61,8 +66,8 @@ export const Home: React.FC<Props> = ({ name, email, pinnedRepositories }) => {
                         <div className="flex flex-row">
                           {repo.homepageUrl && (
                             <div className="flex flex-col items-start mr-2 text-lg font-semibold">
-                              <span>website: </span>
-                              <span>code: </span>
+                              <span>{t('website')}</span>
+                              <span>{t('code')}</span>
                             </div>
                           )}
                           <div className="flex flex-col flex-grow text-lg font-bold">
@@ -104,7 +109,10 @@ export const Home: React.FC<Props> = ({ name, email, pinnedRepositories }) => {
   )
 }
 
-export const getStaticProps: GetStaticProps<Props> = async () => {
+export const getStaticProps: GetStaticProps<Props> = async ({
+  locale = 'en',
+}) => {
+  const translations = await serverSideTranslations(locale, ['common'])
   let data
   try {
     const res = await getPinnedRepositories(GITHUB_LOGIN, 6)
@@ -145,6 +153,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
       name,
       email,
       pinnedRepositories,
+      ...translations,
     },
     revalidate: 1,
   }

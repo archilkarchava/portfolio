@@ -1,3 +1,4 @@
+const { i18n } = require('./next-i18next.config')
 const withPreact = require('next-plugin-preact')
 
 const webpackConfig = (config) => {
@@ -23,4 +24,5 @@ const webpackConfig = (config) => {
 module.exports = withPreact({
   webpack: webpackConfig,
   webpack5: true,
+  i18n,
 })
