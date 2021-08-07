@@ -7,4 +7,15 @@ export const githubApolloClient = new ApolloClient({
     Authorization: GITHUB_TOKEN ? `Bearer ${GITHUB_TOKEN}` : '',
   },
   cache: new InMemoryCache(),
+  defaultOptions: {
+    query: {
+      fetchPolicy: 'no-cache',
+    },
+    watchQuery: {
+      fetchPolicy: 'no-cache',
+    },
+    mutate: {
+      fetchPolicy: 'no-cache',
+    },
+  },
 })
