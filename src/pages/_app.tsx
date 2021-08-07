@@ -9,9 +9,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Head>
         <title>{FULL_NAME}</title>
       </Head>
-      <main className="w-full h-full">
-        <Component {...pageProps} />
-      </main>
+      <Component {...pageProps} />
     </>
   )
 }

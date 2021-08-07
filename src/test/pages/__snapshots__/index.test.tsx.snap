@@ -2,9 +2,9 @@
 
 exports[`Home page matches snapshot 1`] = `
 <DocumentFragment>
-  <div
+  <main
     __source="[object Object]"
-    class="flex items-center justify-center w-full h-full"
+    class="flex flex-col w-full h-full"
   >
     <div
       __source="[object Object]"
@@ -47,11 +47,11 @@ exports[`Home page matches snapshot 1`] = `
       </div>
       <div
         __source="[object Object]"
-        class="my-8"
+        class="mt-8"
       >
         <h1
           __source="[object Object]"
-          class="mb-2 text-2xl sm:text-3xl"
+          class="mb-2 text-2xl"
         >
           Some of my projects:
         </h1>
@@ -68,7 +68,7 @@ exports[`Home page matches snapshot 1`] = `
             >
               <div
                 __source="[object Object]"
-                class="flex flex-row flex-grow"
+                class="flex flex-row"
               >
                 <div
                   __source="[object Object]"
@@ -89,22 +89,18 @@ exports[`Home page matches snapshot 1`] = `
                   __source="[object Object]"
                   class="flex flex-col flex-grow text-lg font-bold"
                 >
-                  <div
+                  <a
                     __source="[object Object]"
+                    href="https://astragal74.ru"
+                    rel="noopener noreferrer"
+                    target="_blank"
                   >
-                    <a
+                    <span
                       __source="[object Object]"
-                      href="https://astragal74.ru"
-                      rel="noopener noreferrer"
-                      target="_blank"
                     >
-                      <span
-                        __source="[object Object]"
-                      >
-                        https://astragal74.ru
-                      </span>
-                    </a>
-                  </div>
+                      https://astragal74.ru
+                    </span>
+                  </a>
                   <a
                     __source="[object Object]"
                     href="https://github.com/archilkarchava/astragal-gatsby"
@@ -121,7 +117,6 @@ exports[`Home page matches snapshot 1`] = `
               </div>
               <div
                 __source="[object Object]"
-                class="text-base break-words"
               >
                 <div>
                   E-commerce website built using Gatsby (React, TypeScript) and serverless.
@@ -138,7 +133,7 @@ exports[`Home page matches snapshot 1`] = `
             >
               <div
                 __source="[object Object]"
-                class="flex flex-row flex-grow"
+                class="flex flex-row"
               >
                 <div
                   __source="[object Object]"
@@ -160,7 +155,6 @@ exports[`Home page matches snapshot 1`] = `
               </div>
               <div
                 __source="[object Object]"
-                class="text-base break-words"
               >
                 <div>
                   Admin panel for 
@@ -185,7 +179,7 @@ exports[`Home page matches snapshot 1`] = `
             >
               <div
                 __source="[object Object]"
-                class="flex flex-row flex-grow"
+                class="flex flex-row"
               >
                 <div
                   __source="[object Object]"
@@ -207,7 +201,6 @@ exports[`Home page matches snapshot 1`] = `
               </div>
               <div
                 __source="[object Object]"
-                class="text-base break-words"
               >
                 <div>
                   Furnitur is a cross-platform (IOS, Android) e-commerce application built using Flutter framework and Firebase backend.
@@ -224,7 +217,7 @@ exports[`Home page matches snapshot 1`] = `
             >
               <div
                 __source="[object Object]"
-                class="flex flex-row flex-grow"
+                class="flex flex-row"
               >
                 <div
                   __source="[object Object]"
@@ -246,7 +239,6 @@ exports[`Home page matches snapshot 1`] = `
               </div>
               <div
                 __source="[object Object]"
-                class="text-base break-words"
               >
                 <div>
                   Firebase backend for Furnitur app.
@@ -257,6 +249,6 @@ exports[`Home page matches snapshot 1`] = `
         </div>
       </div>
     </div>
-  </div>
+  </main>
 </DocumentFragment>
 `;
