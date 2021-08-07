@@ -22,7 +22,5 @@ const webpackConfig = (config) => {
 
 module.exports = withPreact({
   webpack: webpackConfig,
-  future: {
-    webpack5: true,
-  },
+  webpack5: true,
 })
