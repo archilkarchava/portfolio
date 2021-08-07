@@ -3,18 +3,20 @@ import { getPinnedRepositories, getProfileInfo } from '@/lib/api'
 import { EMAIL, FULL_NAME, GITHUB_LOGIN } from '@/lib/constants'
 import type { Awaited } from '@/types/utils'
 import { GetStaticProps } from 'next'
+import xss from 'xss'
 import Head from 'next/head'
 import React from 'react'
 
 interface Props {
   name: string
   email: string
-  pinnedRepositories: NonNullable<
+  pinnedRepositories: Extract<
     NonNullable<
       NonNullable<
         Awaited<ReturnType<typeof getPinnedRepositories>>['data']['user']
       >['pinnedItems']['nodes']
-    >[number]
+    >[number],
+    { id: string }
   >[]
 }
 
@@ -111,9 +113,16 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
   } catch (error) {
     throw new Error(error)
   }
-  const pinnedRepositories = data.user?.pinnedItems.nodes?.filter(
-    (node) => node
-  ) as Props['pinnedRepositories']
+
+  const pinnedRepositories =
+    data.user?.pinnedItems.nodes?.flatMap((node) => {
+      if (node && 'id' in node) {
+        // Github already purifies HTML for us,
+        // we are doing it one more time just in case
+        return { ...node, descriptionHTML: xss(node.descriptionHTML) }
+      }
+      return []
+    }) ?? []
 
   let name = FULL_NAME
   let email = EMAIL
