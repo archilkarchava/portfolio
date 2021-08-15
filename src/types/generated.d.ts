@@ -949,7 +949,6 @@ type Cwe = Node & {
   cweId: Scalars['String'];
   /** A detailed description of this CWE */
   description: Scalars['String'];
-  /** ID of the object. */
   id: Scalars['ID'];
   /** The name of this CWE */
   name: Scalars['String'];
@@ -3079,7 +3078,7 @@ type DeclineTopicSuggestionPayload = {
   topic?: Maybe<Topic>;
 };
 
-/** The possible default permissions for repositories. */
+/** The possible base permissions for repositories. */
 enum DefaultRepositoryPermissionField {
   /** No access */
   None = 'NONE',
@@ -4410,9 +4409,9 @@ type EnterpriseBillingInfo = {
   totalLicenses: Scalars['Int'];
 };
 
-/** The possible values for the enterprise default repository permission setting. */
+/** The possible values for the enterprise base repository permission setting. */
 enum EnterpriseDefaultRepositoryPermissionSettingValue {
-  /** Organizations in the enterprise choose default repository permissions for their members. */
+  /** Organizations in the enterprise choose base repository permissions for their members. */
   NoPolicy = 'NO_POLICY',
   /** Organization members will be able to clone, pull, push, and add new collaborators to all organization repositories. */
   Admin = 'ADMIN',
@@ -4612,7 +4611,7 @@ type EnterpriseOwnerInfo = {
   allowPrivateRepositoryForkingSettingOrganizations: OrganizationConnection;
   /** The setting value for base repository permissions for organizations in this enterprise. */
   defaultRepositoryPermissionSetting: EnterpriseDefaultRepositoryPermissionSettingValue;
-  /** A list of enterprise organizations configured with the provided default repository permission. */
+  /** A list of enterprise organizations configured with the provided base repository permission. */
   defaultRepositoryPermissionSettingOrganizations: OrganizationConnection;
   /** A list of domains owned by the enterprise. */
   domains: VerifiableDomainConnection;
@@ -4624,7 +4623,7 @@ type EnterpriseOwnerInfo = {
   ipAllowListEntries: IpAllowListEntryConnection;
   /** The setting value for whether the enterprise has IP allow list configuration for installed GitHub Apps enabled. */
   ipAllowListForInstalledAppsEnabledSetting: IpAllowListForInstalledAppsEnabledSettingValue;
-  /** Whether or not the default repository permission is currently being updated. */
+  /** Whether or not the base repository permission is currently being updated. */
   isUpdatingDefaultRepositoryPermission: Scalars['Boolean'];
   /** Whether the two-factor authentication requirement is currently being enforced. */
   isUpdatingTwoFactorRequirement: Scalars['Boolean'];
@@ -10111,9 +10110,9 @@ type OrgUpdateDefaultRepositoryPermissionAuditEntry = Node & AuditEntry & Organi
   organizationResourcePath?: Maybe<Scalars['URI']>;
   /** The HTTP URL for the organization */
   organizationUrl?: Maybe<Scalars['URI']>;
-  /** The new default repository permission level for the organization. */
+  /** The new base repository permission level for the organization. */
   permission?: Maybe<OrgUpdateDefaultRepositoryPermissionAuditEntryPermission>;
-  /** The former default repository permission level for the organization. */
+  /** The former base repository permission level for the organization. */
   permissionWas?: Maybe<OrgUpdateDefaultRepositoryPermissionAuditEntryPermission>;
   /** The user affected by the action */
   user?: Maybe<User>;
@@ -10391,6 +10390,8 @@ type Organization = Node & Actor & PackageOwner & ProjectOwner & RepositoryDiscu
   sponsorsListing?: Maybe<SponsorsListing>;
   /** The viewer's sponsorship of this entity. */
   sponsorshipForViewerAsSponsor?: Maybe<Sponsorship>;
+  /** List of sponsorship updates sent from this sponsorable to sponsors. */
+  sponsorshipNewsletters: SponsorshipNewsletterConnection;
   /** This object's sponsorships as the maintainer. */
   sponsorshipsAsMaintainer: SponsorshipConnection;
   /** This object's sponsorships as the sponsor. */
@@ -10633,6 +10634,16 @@ type OrganizationSponsorsActivitiesArgs = {
   last?: Maybe<Scalars['Int']>;
   period?: Maybe<SponsorsActivityPeriod>;
   orderBy?: Maybe<SponsorsActivityOrder>;
+};
+
+
+/** An account on GitHub, with one or more owners, that has repositories, members and teams. */
+type OrganizationSponsorshipNewslettersArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<SponsorshipNewsletterOrder>;
 };
 
 
@@ -16705,9 +16716,7 @@ enum SecurityAdvisoryEcosystem {
   /** Python packages hosted at PyPI.org */
   Pip = 'PIP',
   /** Ruby gems hosted at RubyGems.org */
-  Rubygems = 'RUBYGEMS',
-  /** Applications, runtimes, operating systems and other kinds of software */
-  Other = 'OTHER'
+  Rubygems = 'RUBYGEMS'
 }
 
 /** An edge in a connection. */
@@ -17009,6 +17018,8 @@ type Sponsorable = {
   sponsorsListing?: Maybe<SponsorsListing>;
   /** The viewer's sponsorship of this entity. */
   sponsorshipForViewerAsSponsor?: Maybe<Sponsorship>;
+  /** List of sponsorship updates sent from this sponsorable to sponsors. */
+  sponsorshipNewsletters: SponsorshipNewsletterConnection;
   /** This object's sponsorships as the maintainer. */
   sponsorshipsAsMaintainer: SponsorshipConnection;
   /** This object's sponsorships as the sponsor. */
@@ -17055,6 +17066,16 @@ type SponsorableSponsorsActivitiesArgs = {
   last?: Maybe<Scalars['Int']>;
   period?: Maybe<SponsorsActivityPeriod>;
   orderBy?: Maybe<SponsorsActivityOrder>;
+};
+
+
+/** Entities that can be sponsored through GitHub Sponsors */
+type SponsorableSponsorshipNewslettersArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<SponsorshipNewsletterOrder>;
 };
 
 
@@ -17387,6 +17408,57 @@ type SponsorshipEdge = {
   /** The item at the end of the edge. */
   node?: Maybe<Sponsorship>;
 };
+
+/** An update sent to sponsors of a user or organization on GitHub Sponsors. */
+type SponsorshipNewsletter = Node & {
+  /** The contents of the newsletter, the message the sponsorable wanted to give. */
+  body: Scalars['String'];
+  /** Identifies the date and time when the object was created. */
+  createdAt: Scalars['DateTime'];
+  id: Scalars['ID'];
+  /** Indicates if the newsletter has been made available to sponsors. */
+  isPublished: Scalars['Boolean'];
+  /** The user or organization this newsletter is from. */
+  sponsorable: Sponsorable;
+  /** The subject of the newsletter, what it's about. */
+  subject: Scalars['String'];
+  /** Identifies the date and time when the object was last updated. */
+  updatedAt: Scalars['DateTime'];
+};
+
+/** The connection type for SponsorshipNewsletter. */
+type SponsorshipNewsletterConnection = {
+  /** A list of edges. */
+  edges?: Maybe<Array<Maybe<SponsorshipNewsletterEdge>>>;
+  /** A list of nodes. */
+  nodes?: Maybe<Array<Maybe<SponsorshipNewsletter>>>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** Identifies the total count of items in the connection. */
+  totalCount: Scalars['Int'];
+};
+
+/** An edge in a connection. */
+type SponsorshipNewsletterEdge = {
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node?: Maybe<SponsorshipNewsletter>;
+};
+
+/** Ordering options for sponsorship newsletter connections. */
+type SponsorshipNewsletterOrder = {
+  /** The field to order sponsorship newsletters by. */
+  field: SponsorshipNewsletterOrderField;
+  /** The ordering direction. */
+  direction: OrderDirection;
+};
+
+/** Properties by which sponsorship update connections can be ordered. */
+enum SponsorshipNewsletterOrderField {
+  /** Order sponsorship newsletters by when they were created. */
+  CreatedAt = 'CREATED_AT'
+}
 
 /** Ordering options for sponsorship connections. */
 type SponsorshipOrder = {
@@ -20041,6 +20113,8 @@ type User = Node & Actor & PackageOwner & ProjectOwner & RepositoryDiscussionAut
   sponsorsListing?: Maybe<SponsorsListing>;
   /** The viewer's sponsorship of this entity. */
   sponsorshipForViewerAsSponsor?: Maybe<Sponsorship>;
+  /** List of sponsorship updates sent from this sponsorable to sponsors. */
+  sponsorshipNewsletters: SponsorshipNewsletterConnection;
   /** This object's sponsorships as the maintainer. */
   sponsorshipsAsMaintainer: SponsorshipConnection;
   /** This object's sponsorships as the sponsor. */
@@ -20382,6 +20456,16 @@ type UserSponsorsActivitiesArgs = {
   last?: Maybe<Scalars['Int']>;
   period?: Maybe<SponsorsActivityPeriod>;
   orderBy?: Maybe<SponsorsActivityOrder>;
+};
+
+
+/** A user is an individual's account on GitHub that owns repositories and can make new content. */
+type UserSponsorshipNewslettersArgs = {
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<SponsorshipNewsletterOrder>;
 };
 
 
