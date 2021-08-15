@@ -1,10 +1,7 @@
 const defaultTheme = require('tailwindcss/defaultTheme')
 
 module.exports = {
-  future: {
-    removeDeprecatedGapUtilities: true,
-    purgeLayersByDefault: true,
-  },
+  mode: 'jit',
   darkMode: 'media', // 'media' or 'class'
   purge: [
     './src/components/**/*.{js,ts,jsx,tsx}',
@@ -16,6 +13,4 @@ module.exports = {
       sans: ['Inter', ...defaultTheme.fontFamily.sans],
     },
   },
-  variants: {},
-  plugins: [],
 }
