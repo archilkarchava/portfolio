@@ -49,11 +49,11 @@ export const Home: React.FC<Props> = ({ name, email, pinnedRepositories }) => {
           </div>
           {pinnedRepositories.length > 0 && (
             <div className="mt-8">
-              <h1 className="mb-2 text-2xl">Some of my projects:</h1>
-              <div className="flex flex-wrap -m-2">
+              <h2 className="mb-2 text-2xl">Some of my projects:</h2>
+              <ol className="flex flex-wrap -m-2">
                 {pinnedRepositories.map((repo) => {
                   return (
-                    <div
+                    <li
                       key={repo.id}
                       className="flex-grow w-full p-4 m-2 border border-gray-300 rounded-lg md:w-5/12 dark:border-gray-700"
                     >
@@ -65,7 +65,7 @@ export const Home: React.FC<Props> = ({ name, email, pinnedRepositories }) => {
                               <span>code: </span>
                             </div>
                           )}
-                          <div className="flex flex-col flex-grow text-lg font-bold">
+                          <div className="flex flex-col flex-grow text-lg font-semibold">
                             {repo.homepageUrl && (
                               <a
                                 href={repo.homepageUrl}
@@ -80,7 +80,7 @@ export const Home: React.FC<Props> = ({ name, email, pinnedRepositories }) => {
                               target="_blank"
                               rel="noopener noreferrer"
                             >
-                              <span>{repo.name}</span>
+                              <span title={repo.name}>{repo.name}</span>
                             </a>
                           </div>
                         </div>
@@ -92,10 +92,10 @@ export const Home: React.FC<Props> = ({ name, email, pinnedRepositories }) => {
                           />
                         )}
                       </div>
-                    </div>
+                    </li>
                   )
                 })}
-              </div>
+              </ol>
             </div>
           )}
         </div>
