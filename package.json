@@ -5,10 +5,8 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "concurrently \"next dev\" \"yarn types:generate --watch\"",
-    "prebuild": "is-ci || yarn types:generate",
     "build": "next build",
-    "preexport": "yarn build",
-    "export": "next export",
+    "export": "yarn build && next export",
     "start": "next start",
     "types:check": "tsc --pretty --noEmit",
     "types:generate": "cross-env DOTENV_CONFIG_PATH='./.env.local' graphql-codegen --require dotenv/config",
