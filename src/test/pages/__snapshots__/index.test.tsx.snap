@@ -49,17 +49,17 @@ exports[`Home page matches snapshot 1`] = `
         __source="[object Object]"
         class="mt-8"
       >
-        <h1
+        <h2
           __source="[object Object]"
           class="mb-2 text-2xl"
         >
           Some of my projects:
-        </h1>
-        <div
+        </h2>
+        <ol
           __source="[object Object]"
           class="flex flex-wrap -m-2"
         >
-          <div
+          <li
             __source="[object Object]"
             class="flex-grow w-full p-4 m-2 border border-gray-300 rounded-lg md:w-5/12 dark:border-gray-700"
           >
@@ -87,7 +87,7 @@ exports[`Home page matches snapshot 1`] = `
                 </div>
                 <div
                   __source="[object Object]"
-                  class="flex flex-col flex-grow text-lg font-bold"
+                  class="flex flex-col flex-grow text-lg font-semibold"
                 >
                   <a
                     __source="[object Object]"
@@ -109,6 +109,7 @@ exports[`Home page matches snapshot 1`] = `
                   >
                     <span
                       __source="[object Object]"
+                      title="astragal-gatsby"
                     >
                       astragal-gatsby
                     </span>
@@ -123,8 +124,8 @@ exports[`Home page matches snapshot 1`] = `
                 </div>
               </div>
             </div>
-          </div>
-          <div
+          </li>
+          <li
             __source="[object Object]"
             class="flex-grow w-full p-4 m-2 border border-gray-300 rounded-lg md:w-5/12 dark:border-gray-700"
           >
@@ -137,7 +138,7 @@ exports[`Home page matches snapshot 1`] = `
               >
                 <div
                   __source="[object Object]"
-                  class="flex flex-col flex-grow text-lg font-bold"
+                  class="flex flex-col flex-grow text-lg font-semibold"
                 >
                   <a
                     __source="[object Object]"
@@ -147,6 +148,7 @@ exports[`Home page matches snapshot 1`] = `
                   >
                     <span
                       __source="[object Object]"
+                      title="astragal-sanity-studio"
                     >
                       astragal-sanity-studio
                     </span>
@@ -169,8 +171,8 @@ exports[`Home page matches snapshot 1`] = `
                 </div>
               </div>
             </div>
-          </div>
-          <div
+          </li>
+          <li
             __source="[object Object]"
             class="flex-grow w-full p-4 m-2 border border-gray-300 rounded-lg md:w-5/12 dark:border-gray-700"
           >
@@ -183,7 +185,7 @@ exports[`Home page matches snapshot 1`] = `
               >
                 <div
                   __source="[object Object]"
-                  class="flex flex-col flex-grow text-lg font-bold"
+                  class="flex flex-col flex-grow text-lg font-semibold"
                 >
                   <a
                     __source="[object Object]"
@@ -193,6 +195,7 @@ exports[`Home page matches snapshot 1`] = `
                   >
                     <span
                       __source="[object Object]"
+                      title="furnitur"
                     >
                       furnitur
                     </span>
@@ -207,8 +210,8 @@ exports[`Home page matches snapshot 1`] = `
                 </div>
               </div>
             </div>
-          </div>
-          <div
+          </li>
+          <li
             __source="[object Object]"
             class="flex-grow w-full p-4 m-2 border border-gray-300 rounded-lg md:w-5/12 dark:border-gray-700"
           >
@@ -221,7 +224,7 @@ exports[`Home page matches snapshot 1`] = `
               >
                 <div
                   __source="[object Object]"
-                  class="flex flex-col flex-grow text-lg font-bold"
+                  class="flex flex-col flex-grow text-lg font-semibold"
                 >
                   <a
                     __source="[object Object]"
@@ -231,6 +234,7 @@ exports[`Home page matches snapshot 1`] = `
                   >
                     <span
                       __source="[object Object]"
+                      title="furnitur-firebase"
                     >
                       furnitur-firebase
                     </span>
@@ -245,8 +249,8 @@ exports[`Home page matches snapshot 1`] = `
                 </div>
               </div>
             </div>
-          </div>
-        </div>
+          </li>
+        </ol>
       </div>
     </div>
   </main>
