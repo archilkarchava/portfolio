@@ -110,11 +110,13 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
     const res = await getPinnedRepositories(GITHUB_LOGIN, 6)
     data = res.data
   } catch (error) {
-    throw new Error(error)
+    if (error instanceof Error) {
+      throw new Error(error.message)
+    }
   }
 
   const pinnedRepositories =
-    data.user?.pinnedItems.nodes?.flatMap((node) => {
+    data?.user?.pinnedItems.nodes?.flatMap((node) => {
       if (node && 'id' in node) {
         // Github already purifies HTML for us,
         // we are doing it one more time just in case
@@ -136,7 +138,9 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
         email = profileRes.data.user?.email || ''
       }
     } catch (error) {
-      throw new Error(error)
+      if (error instanceof Error) {
+        throw new Error(error.message)
+      }
     }
   }
 
