@@ -1,4 +1,4 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-npm run types:check
+npm exec concurrently "npm run test" "npm run types:check"
