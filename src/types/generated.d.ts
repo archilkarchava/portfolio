@@ -12424,7 +12424,7 @@ type PullRequestCommit = Node & UniformResourceLocatable & {
 };
 
 /** Represents a commit comment thread part of a pull request. */
-type PullRequestCommitCommentThread = Node & RepositoryNode & {
+type PullRequestCommitCommentThread = RepositoryNode & Node & {
   /** The comments that exist in this thread. */
   comments: CommitCommentConnection;
   /** The commit the comments were made on. */
