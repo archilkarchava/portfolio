@@ -2,6 +2,12 @@
 
 exports[`Home page matches snapshot 1`] = `
 <DocumentFragment>
+  <button
+    __source="[object Object]"
+    class="fixed top-0 right-0 p-5"
+  >
+    change-locale
+  </button>
   <main
     __source="[object Object]"
     class="flex flex-col w-full h-full"
@@ -53,7 +59,7 @@ exports[`Home page matches snapshot 1`] = `
           __source="[object Object]"
           class="mb-2 text-2xl"
         >
-          Some of my projects:
+          my-projects
         </h2>
         <ol
           __source="[object Object]"
@@ -77,12 +83,12 @@ exports[`Home page matches snapshot 1`] = `
                   <span
                     __source="[object Object]"
                   >
-                    website: 
+                    website
                   </span>
                   <span
                     __source="[object Object]"
                   >
-                    code: 
+                    code
                   </span>
                 </div>
                 <div

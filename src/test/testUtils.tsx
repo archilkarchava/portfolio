@@ -1,21 +1,38 @@
 import { render } from '@testing-library/react'
 import React from 'react'
-// import { ThemeProvider } from "my-ui-lib"
-// import { TranslationProvider } from "my-i18n-lib"
-// import defaultStrings from "i18n/en-x-default"
+import { I18nextProvider } from 'react-i18next'
+import i18n from './i18nForTests'
+import { RouterContext } from 'next/dist/shared/lib/router-context'
+import { NextRouter } from 'next/router'
 
-// const Providers: React.FC = ({ children }) => {
-//   return (
-//     <ThemeProvider theme="light">
-//       <TranslationProvider messages={defaultStrings}>
-//         {children}
-//       </TranslationProvider>
-//     </ThemeProvider>
-//   )
-// }
+const mockRouter: Partial<NextRouter> = {
+  basePath: '/',
+  pathname: '/',
+  route: '/',
+  query: {},
+  asPath: '/',
+  locale: 'en',
+  locales: ['en', 'ru'],
+  push: jest.fn(() => Promise.resolve(true)),
+  replace: jest.fn(() => Promise.resolve(true)),
+  reload: jest.fn(() => Promise.resolve(true)),
+  prefetch: jest.fn(() => Promise.resolve()),
+  back: jest.fn(() => Promise.resolve(true)),
+  beforePopState: jest.fn(() => Promise.resolve(true)),
+  isFallback: false,
+  events: {
+    on: jest.fn(),
+    off: jest.fn(),
+    emit: jest.fn(),
+  },
+}
 
 const Providers: React.FC = ({ children }) => {
-  return <>{children}</>
+  return (
+    <RouterContext.Provider value={mockRouter as NextRouter}>
+      <I18nextProvider i18n={i18n}>{children}</I18nextProvider>
+    </RouterContext.Provider>
+  )
 }
 
 const customRender = (
