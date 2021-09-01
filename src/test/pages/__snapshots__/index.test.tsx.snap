@@ -2,12 +2,6 @@
 
 exports[`Home page matches snapshot 1`] = `
 <DocumentFragment>
-  <button
-    __source="[object Object]"
-    class="fixed top-0 right-0 p-5"
-  >
-    change-locale
-  </button>
   <main
     __source="[object Object]"
     class="flex flex-col w-full h-full"

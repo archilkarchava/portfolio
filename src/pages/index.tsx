@@ -1,14 +1,13 @@
 import GithubIcon from '@/assets/github.svg'
-import { LanguageSwitcher } from '@/components/LanguageSwitcher'
 import { getPinnedRepositories, getProfileInfo } from '@/lib/api'
 import { EMAIL, FULL_NAME, GITHUB_LOGIN } from '@/lib/constants'
 import type { Awaited } from '@/types/utils'
 import { GetStaticProps } from 'next'
-import xss from 'xss'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Head from 'next/head'
 import React from 'react'
+import xss from 'xss'
 
 interface Props {
   name: string
@@ -30,7 +29,6 @@ export const Home: React.FC<Props> = ({ name, email, pinnedRepositories }) => {
       <Head>
         <title>{name}</title>
       </Head>
-      <LanguageSwitcher />
       <main className="flex flex-col w-full h-full">
         <div className="max-w-4xl p-5 m-auto">
           <div>
