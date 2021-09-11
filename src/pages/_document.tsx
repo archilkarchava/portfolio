@@ -23,6 +23,11 @@ class MyDocument extends Document {
             rel="stylesheet"
           />
           <meta name="theme-color" content="#ffffff" />
+          <meta name="description" content="Portfolio" />
+          <meta
+            name="keywords"
+            content="Software Engineer, portfolio, frontend, backend, React, React Native, NestJS, nest, next, nextjs, tailwind, html, css, JavaScript, TypeScript, Node, nodejs, go, golang"
+          />
         </Head>
         <body>
           <Main />
