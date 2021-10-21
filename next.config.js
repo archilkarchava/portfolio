@@ -1,5 +1,8 @@
 const withPreact = require('next-plugin-preact')
 
+/**
+ * @type {import('next').NextConfig['webpack']}
+ */
 const webpackConfig = (config) => {
   // Import svg
   config.module.rules.push({
@@ -20,7 +23,12 @@ const webpackConfig = (config) => {
   return config
 }
 
-module.exports = withPreact({
+/**
+ * @type {import('next').NextConfig}
+ */
+const nextConfig = {
   webpack: webpackConfig,
   webpack5: true,
-})
+}
+
+module.exports = withPreact(nextConfig)
