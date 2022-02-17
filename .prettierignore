@@ -1,6 +1,9 @@
 node_modules
 .next
+out
 yarn.lock
 package-lock.json
+pnpm-lock.yaml
 public
+src/schema.graphql
 src/types/generated.d.ts
