@@ -3,35 +3,27 @@
 exports[`Home page matches snapshot 1`] = `
 <DocumentFragment>
   <main
-    __source="[object Object]"
     class="flex flex-col w-full h-full"
   >
     <div
-      __source="[object Object]"
       class="max-w-4xl p-5 m-auto"
     >
-      <div
-        __source="[object Object]"
-      >
+      <div>
         <h1
-          __source="[object Object]"
           class="text-4xl font-bold leading-tight sm:text-6xl"
         >
           Ivan Ivanov
         </h1>
         <div
-          __source="[object Object]"
           class="flex items-center mt-1 text-2xl sm:mt-3 sm:text-4xl"
         >
           <a
-            __source="[object Object]"
             class="mr-4"
             href="mailto:test@mail.com"
           >
             test@mail.com
           </a>
           <a
-            __source="[object Object]"
             class="text-current hover:opacity-70"
             href="https://github.com/archilkarchava"
             rel="noopener noreferrer"
@@ -39,76 +31,57 @@ exports[`Home page matches snapshot 1`] = `
             title="My Github"
           >
             <test-file-stub
-              __source="[object Object]"
               class="w-6 h-6 sm:w-9 sm:h-9"
             />
           </a>
         </div>
       </div>
       <div
-        __source="[object Object]"
         class="mt-8"
       >
         <h2
-          __source="[object Object]"
           class="mb-2 text-2xl"
         >
           Some of my projects:
         </h2>
         <ol
-          __source="[object Object]"
           class="flex flex-wrap -m-2"
         >
           <li
-            __source="[object Object]"
             class="flex-grow w-full p-4 m-2 border border-gray-300 rounded-lg md:w-5/12 dark:border-gray-700"
           >
-            <div
-              __source="[object Object]"
-            >
+            <div>
               <div
-                __source="[object Object]"
                 class="flex flex-row"
               >
                 <div
-                  __source="[object Object]"
                   class="flex flex-col items-start mr-2 text-lg font-semibold"
                 >
-                  <span
-                    __source="[object Object]"
-                  >
+                  <span>
                     website: 
                   </span>
-                  <span
-                    __source="[object Object]"
-                  >
+                  <span>
                     code: 
                   </span>
                 </div>
                 <div
-                  __source="[object Object]"
                   class="flex flex-col flex-grow text-lg font-semibold"
                 >
                   <a
-                    __source="[object Object]"
                     href="https://astragal74.ru"
                     rel="noopener noreferrer"
                     target="_blank"
                   >
-                    <span
-                      __source="[object Object]"
-                    >
+                    <span>
                       https://astragal74.ru
                     </span>
                   </a>
                   <a
-                    __source="[object Object]"
                     href="https://github.com/archilkarchava/astragal-gatsby"
                     rel="noopener noreferrer"
                     target="_blank"
                   >
                     <span
-                      __source="[object Object]"
                       title="astragal-gatsby"
                     >
                       astragal-gatsby
@@ -116,9 +89,7 @@ exports[`Home page matches snapshot 1`] = `
                   </a>
                 </div>
               </div>
-              <div
-                __source="[object Object]"
-              >
+              <div>
                 <div>
                   E-commerce website built using Gatsby (React, TypeScript) and serverless.
                 </div>
@@ -126,28 +97,21 @@ exports[`Home page matches snapshot 1`] = `
             </div>
           </li>
           <li
-            __source="[object Object]"
             class="flex-grow w-full p-4 m-2 border border-gray-300 rounded-lg md:w-5/12 dark:border-gray-700"
           >
-            <div
-              __source="[object Object]"
-            >
+            <div>
               <div
-                __source="[object Object]"
                 class="flex flex-row"
               >
                 <div
-                  __source="[object Object]"
                   class="flex flex-col flex-grow text-lg font-semibold"
                 >
                   <a
-                    __source="[object Object]"
                     href="https://github.com/archilkarchava/astragal-sanity-studio"
                     rel="noopener noreferrer"
                     target="_blank"
                   >
                     <span
-                      __source="[object Object]"
                       title="astragal-sanity-studio"
                     >
                       astragal-sanity-studio
@@ -155,9 +119,7 @@ exports[`Home page matches snapshot 1`] = `
                   </a>
                 </div>
               </div>
-              <div
-                __source="[object Object]"
-              >
+              <div>
                 <div>
                   Admin panel for 
                   <a
@@ -173,28 +135,21 @@ exports[`Home page matches snapshot 1`] = `
             </div>
           </li>
           <li
-            __source="[object Object]"
             class="flex-grow w-full p-4 m-2 border border-gray-300 rounded-lg md:w-5/12 dark:border-gray-700"
           >
-            <div
-              __source="[object Object]"
-            >
+            <div>
               <div
-                __source="[object Object]"
                 class="flex flex-row"
               >
                 <div
-                  __source="[object Object]"
                   class="flex flex-col flex-grow text-lg font-semibold"
                 >
                   <a
-                    __source="[object Object]"
                     href="https://github.com/archilkarchava/furnitur"
                     rel="noopener noreferrer"
                     target="_blank"
                   >
                     <span
-                      __source="[object Object]"
                       title="furnitur"
                     >
                       furnitur
@@ -202,9 +157,7 @@ exports[`Home page matches snapshot 1`] = `
                   </a>
                 </div>
               </div>
-              <div
-                __source="[object Object]"
-              >
+              <div>
                 <div>
                   Furnitur is a cross-platform (IOS, Android) e-commerce application built using Flutter framework and Firebase backend.
                 </div>
@@ -212,28 +165,21 @@ exports[`Home page matches snapshot 1`] = `
             </div>
           </li>
           <li
-            __source="[object Object]"
             class="flex-grow w-full p-4 m-2 border border-gray-300 rounded-lg md:w-5/12 dark:border-gray-700"
           >
-            <div
-              __source="[object Object]"
-            >
+            <div>
               <div
-                __source="[object Object]"
                 class="flex flex-row"
               >
                 <div
-                  __source="[object Object]"
                   class="flex flex-col flex-grow text-lg font-semibold"
                 >
                   <a
-                    __source="[object Object]"
                     href="https://github.com/archilkarchava/furnitur-firebase"
                     rel="noopener noreferrer"
                     target="_blank"
                   >
                     <span
-                      __source="[object Object]"
                       title="furnitur-firebase"
                     >
                       furnitur-firebase
@@ -241,9 +187,7 @@ exports[`Home page matches snapshot 1`] = `
                   </a>
                 </div>
               </div>
-              <div
-                __source="[object Object]"
-              >
+              <div>
                 <div>
                   Firebase backend for Furnitur app.
                 </div>
