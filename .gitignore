@@ -44,3 +44,6 @@ yarn-error.log*
 
 # VS Code
 .vscode/snipsnap.code-snippets
+
+# TypeScript
+tsconfig.tsbuildinfo
