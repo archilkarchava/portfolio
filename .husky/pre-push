@@ -1,4 +1,4 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-yarn concurrently "yarn test" "yarn types:check"
+pnpm concurrently "pnpm test" "pnpm types:check"
