@@ -30,6 +30,7 @@ const webpackConfig = (config) => {
  * @type {import('next').NextConfig}
  */
 const nextConfig = {
+  swcMinify: true,
   webpack: webpackConfig,
   webpack5: true,
 }
