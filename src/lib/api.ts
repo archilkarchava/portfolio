@@ -1,9 +1,9 @@
 import { githubApolloClient } from '@/lib/githubApollo'
 import { gql } from '@apollo/client'
-import { GITHUB_LOGIN } from './constants'
 
 export async function getPinnedRepositories(
-  githubLogin: PinnedRepositoriesQueryVariables['login'] = GITHUB_LOGIN,
+  githubLogin: PinnedRepositoriesQueryVariables['login'] = process.env
+    .NEXT_PUBLIC_GITHUB_LOGIN,
   amount: PinnedRepositoriesQueryVariables['amount'] = 100
 ) {
   return githubApolloClient.query<PinnedRepositoriesQuery>({
@@ -29,7 +29,8 @@ export async function getPinnedRepositories(
 }
 
 export async function getProfileInfo(
-  githubLogin: ProfileInfoQueryVariables['login'] = GITHUB_LOGIN
+  githubLogin: ProfileInfoQueryVariables['login'] = process.env
+    .NEXT_PUBLIC_GITHUB_LOGIN
 ) {
   return githubApolloClient.query<ProfileInfoQuery>({
     query: gql`
