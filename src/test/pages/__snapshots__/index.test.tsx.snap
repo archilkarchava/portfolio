@@ -30,7 +30,7 @@ exports[`Home page matches snapshot 1`] = `
             target="_blank"
             title="My Github"
           >
-            <test-file-stub
+            <div
               class="w-6 h-6 sm:w-9 sm:h-9"
             />
           </a>

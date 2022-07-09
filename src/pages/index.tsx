@@ -1,7 +1,6 @@
 import GithubIcon from '@/assets/github.svg'
 import { getPinnedRepositories, getProfileInfo } from '@/lib/api'
 import { EMAIL, FULL_NAME, GITHUB_LOGIN } from '@/lib/constants'
-import type { Awaited } from '@/types/utils'
 import { GetStaticProps } from 'next'
 import xss from 'xss'
 import Head from 'next/head'
@@ -20,7 +19,7 @@ interface Props {
   >[]
 }
 
-export const Home: React.FC<Props> = ({ name, email, pinnedRepositories }) => {
+export function Home({ name, email, pinnedRepositories }: Props) {
   return (
     <>
       <Head>

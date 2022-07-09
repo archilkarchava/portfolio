@@ -1,5 +1,3 @@
-const withPreact = require('next-plugin-preact')
-
 /**
  * @type {import('next').NextConfig['webpack']}
  */
@@ -32,7 +30,9 @@ const webpackConfig = (config) => {
 const nextConfig = {
   swcMinify: true,
   webpack: webpackConfig,
-  webpack5: true,
+  experimental: {
+    runtime: 'experimental-edge',
+  },
 }
 
-module.exports = withPreact(nextConfig)
+module.exports = nextConfig
