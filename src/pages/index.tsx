@@ -2,7 +2,6 @@ import GithubIcon from '@/assets/github.svg'
 import { getPinnedRepositories, getProfileInfo } from '@/lib/api'
 import { InferGetStaticPropsType } from 'next'
 import Head from 'next/head'
-import xss from 'xss'
 
 export const getStaticProps = async () => {
   let data
@@ -23,9 +22,7 @@ export const getStaticProps = async () => {
   const pinnedRepositories =
     data?.user?.pinnedItems.nodes?.flatMap((node) => {
       if (node && 'id' in node) {
-        // Github already purifies HTML for us,
-        // we are doing it one more time just in case
-        return { ...node, descriptionHTML: xss(node.descriptionHTML) }
+        return node
       }
       return []
     }) ?? []
