@@ -1,10 +1,9 @@
-import { githubGraphqlApiEndpoint, GITHUB_TOKEN } from '@/lib/constants'
 import { ApolloClient, InMemoryCache } from '@apollo/client'
 
 export const githubApolloClient = new ApolloClient({
-  uri: githubGraphqlApiEndpoint,
+  uri: process.env.GITHUB_GRAPHQL_API_ENDPOINT,
   headers: {
-    Authorization: GITHUB_TOKEN ? `Bearer ${GITHUB_TOKEN}` : '',
+    Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
   },
   cache: new InMemoryCache(),
   defaultOptions: {

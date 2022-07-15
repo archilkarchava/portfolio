@@ -1,6 +1,6 @@
 import React from 'react'
-import { Home } from '../../pages/index'
-import { render } from '../testUtils'
+import { Home } from '@/pages/index'
+import { render } from '@/test/testUtils'
 
 describe('Home page', () => {
   const pinnedRepositories = [

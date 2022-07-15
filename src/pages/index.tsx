@@ -1,26 +1,68 @@
 import GithubIcon from '@/assets/github.svg'
 import { getPinnedRepositories, getProfileInfo } from '@/lib/api'
-import { EMAIL, FULL_NAME, GITHUB_LOGIN } from '@/lib/constants'
-import type { Awaited } from '@/types/utils'
-import { GetStaticProps } from 'next'
-import xss from 'xss'
+import { InferGetStaticPropsType } from 'next'
 import Head from 'next/head'
-import React from 'react'
 
-interface Props {
-  name: string
-  email: string
-  pinnedRepositories: Extract<
-    NonNullable<
-      NonNullable<
-        Awaited<ReturnType<typeof getPinnedRepositories>>['data']['user']
-      >['pinnedItems']['nodes']
-    >[number],
-    { id: string }
-  >[]
+export const config = {
+  unstable_runtimeJS: false,
 }
 
-export const Home: React.FC<Props> = ({ name, email, pinnedRepositories }) => {
+export const getStaticProps = async () => {
+  let data
+  try {
+    const res = await getPinnedRepositories(
+      process.env.NEXT_PUBLIC_GITHUB_LOGIN,
+      6
+    )
+    data = res.data
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error("Failed to fetch user's pinned repositories", {
+        cause: error,
+      })
+    }
+  }
+
+  const pinnedRepositories =
+    data?.user?.pinnedItems.nodes?.flatMap((node) => {
+      if (node && 'id' in node) {
+        return node
+      }
+      return []
+    }) ?? []
+
+  let name = process.env.NEXT_PUBLIC_FULL_NAME
+  let email = process.env.NEXT_PUBLIC_CONTACT_EMAIL
+
+  if (!name || !email) {
+    try {
+      const profileRes = await getProfileInfo(
+        process.env.NEXT_PUBLIC_GITHUB_LOGIN
+      )
+      name = name ?? profileRes.data.user?.name ?? ''
+      email = email ?? profileRes.data.user?.email ?? ''
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error('Failed to fetch github name and email', {
+          cause: error,
+        })
+      }
+    }
+  }
+
+  return {
+    props: {
+      name,
+      email,
+      pinnedRepositories,
+    },
+    revalidate: 1,
+  }
+}
+
+type Props = InferGetStaticPropsType<typeof getStaticProps>
+
+export function Home({ name, email, pinnedRepositories }: Props) {
   return (
     <>
       <Head>
@@ -38,7 +80,7 @@ export const Home: React.FC<Props> = ({ name, email, pinnedRepositories }) => {
               </a>
               <a
                 title="My Github"
-                href={`https://github.com/${GITHUB_LOGIN}`}
+                href={`https://github.com/${process.env.NEXT_PUBLIC_GITHUB_LOGIN}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-current hover:opacity-70"
@@ -102,56 +144,6 @@ export const Home: React.FC<Props> = ({ name, email, pinnedRepositories }) => {
       </main>
     </>
   )
-}
-
-export const getStaticProps: GetStaticProps<Props> = async () => {
-  let data
-  try {
-    const res = await getPinnedRepositories(GITHUB_LOGIN, 6)
-    data = res.data
-  } catch (error) {
-    if (error instanceof Error) {
-      throw new Error(error.message)
-    }
-  }
-
-  const pinnedRepositories =
-    data?.user?.pinnedItems.nodes?.flatMap((node) => {
-      if (node && 'id' in node) {
-        // Github already purifies HTML for us,
-        // we are doing it one more time just in case
-        return { ...node, descriptionHTML: xss(node.descriptionHTML) }
-      }
-      return []
-    }) ?? []
-
-  let name = FULL_NAME
-  let email = EMAIL
-
-  if (!name || !email) {
-    try {
-      const profileRes = await getProfileInfo(GITHUB_LOGIN)
-      if (!name) {
-        name = profileRes.data.user?.name || ''
-      }
-      if (!email) {
-        email = profileRes.data.user?.email || ''
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        throw new Error(error.message)
-      }
-    }
-  }
-
-  return {
-    props: {
-      name,
-      email,
-      pinnedRepositories,
-    },
-    revalidate: 1,
-  }
 }
 
 export default Home

@@ -1,38 +1,45 @@
-const withPreact = require('next-plugin-preact')
+// @ts-check
+const validateEnv = require('./validateEnv')
+
+validateEnv()
 
 /**
- * @type {import('next').NextConfig['webpack']}
+ * @template {import('next').NextConfig} T
+ * @param {T} config - A generic parameter that flows through to the return type
+ * @constraint {{import('next').NextConfig}}
  */
-const webpackConfig = (config) => {
-  // Import svg
-  config.module.rules.push({
-    test: /\.svg$/,
-    use: [
-      {
-        loader: '@svgr/webpack',
-        options: {
-          svgoConfig: {
-            plugins: [
-              {
-                name: 'removeViewBox',
-                active: false,
-              },
-            ],
-          },
-        },
-      },
-    ],
-  })
+function getConfig(config) {
   return config
 }
 
 /**
- * @type {import('next').NextConfig}
+ * @link https://nextjs.org/docs/api-reference/next.config.js/introduction
  */
-const nextConfig = {
+module.exports = getConfig({
   swcMinify: true,
-  webpack: webpackConfig,
-  webpack5: true,
-}
-
-module.exports = withPreact(nextConfig)
+  webpack: (config) => {
+    // Import svg
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: [
+        {
+          loader: '@svgr/webpack',
+          options: {
+            svgoConfig: {
+              plugins: [
+                {
+                  name: 'removeViewBox',
+                  active: false,
+                },
+              ],
+            },
+          },
+        },
+      ],
+    })
+    return config
+  },
+  experimental: {
+    runtime: 'experimental-edge',
+  },
+})

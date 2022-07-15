@@ -22,7 +22,16 @@ class MyDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
             rel="stylesheet"
           />
-          <meta name="theme-color" content="#ffffff" />
+          <meta
+            name="theme-color"
+            media="(prefers-color-scheme: light)"
+            content="#ffffff"
+          />
+          <meta
+            name="theme-color"
+            media="(prefers-color-scheme: dark)"
+            content="#000000"
+          />
           <meta name="description" content="Portfolio" />
           <meta
             name="keywords"
