@@ -14334,6 +14334,7 @@ type ProjectV2ItemFieldValuesArgs = {
   before?: InputMaybe<Scalars['String']>;
   first?: InputMaybe<Scalars['Int']>;
   last?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<ProjectV2ItemFieldValueOrder>;
 };
 
 /** The connection type for ProjectV2Item. */
@@ -14464,6 +14465,7 @@ type ProjectV2ItemFieldPullRequestValuePullRequestsArgs = {
   before?: InputMaybe<Scalars['String']>;
   first?: InputMaybe<Scalars['Int']>;
   last?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<PullRequestOrder>;
 };
 
 /** The value of a repository field in a Project item. */
@@ -14589,6 +14591,20 @@ type ProjectV2ItemFieldValueEdge = {
   /** The item at the end of the edge. */
   node?: Maybe<ProjectV2ItemFieldValue>;
 };
+
+/** Ordering options for project v2 item field value connections */
+type ProjectV2ItemFieldValueOrder = {
+  /** The ordering direction. */
+  direction: OrderDirection;
+  /** The field to order the project v2 item field values by. */
+  field: ProjectV2ItemFieldValueOrderField;
+};
+
+/** Properties by which project v2 item field value connections can be ordered. */
+enum ProjectV2ItemFieldValueOrderField {
+  /** Order project v2 item field values by the their position in the project */
+  Position = 'POSITION'
+}
 
 /** Ordering options for project v2 item connections */
 type ProjectV2ItemOrder = {
