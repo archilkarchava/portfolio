@@ -3,6 +3,10 @@ import { getPinnedRepositories, getProfileInfo } from '@/lib/api'
 import { InferGetStaticPropsType } from 'next'
 import Head from 'next/head'
 
+export const config = {
+  unstable_runtimeJS: false,
+}
+
 export const getStaticProps = async () => {
   let data
   try {
