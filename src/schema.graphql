@@ -2832,7 +2832,9 @@ type CommitComment implements Comment & Deletable & Minimizable & Node & Reactab
   """The moment the editor made the last edit"""
   lastEditedAt: DateTime
 
-  """Returns why the comment was minimized."""
+  """
+  Returns why the comment was minimized. One of `abuse`, `off-topic`, `outdated`, `resolved`, `duplicate` and `spam`. Note that the case and formatting of these values differs from the inputs to the `MinimizeComment` mutation.
+  """
   minimizedReason: String
 
   """Identifies the file path associated with the comment."""
@@ -3079,7 +3081,7 @@ input CommitMessage {
   headline: String!
 }
 
-"A git ref for a commit to be appended to.\n\nThe ref must be a branch, i.e. its fully qualified name must start\nwith `refs/heads/` (although the input is not required to be fully\nqualified).\n\nThe Ref may be specified by its global node ID or by the\nrepository nameWithOwner and branch name.\n\n### Examples\n\nSpecify a branch using a global node ID:\n\n    { \"id\": \"MDM6UmVmMTpyZWZzL2hlYWRzL21haW4=\" }\n\nSpecify a branch using nameWithOwner and branch name:\n\n    {\n      \"nameWithOwner\": \"github/graphql-client\",\n      \"branchName\": \"main\"\n    }\n\n"
+"A git ref for a commit to be appended to.\n\nThe ref must be a branch, i.e. its fully qualified name must start\nwith `refs/heads/` (although the input is not required to be fully\nqualified).\n\nThe Ref may be specified by its global node ID or by the\n`repositoryNameWithOwner` and `branchName`.\n\n### Examples\n\nSpecify a branch using a global node ID:\n\n    { \"id\": \"MDM6UmVmMTpyZWZzL2hlYWRzL21haW4=\" }\n\nSpecify a branch using `repositoryNameWithOwner` and `branchName`:\n\n    {\n      \"repositoryNameWithOwner\": \"github/graphql-client\",\n      \"branchName\": \"main\"\n    }\n\n"
 input CommittableBranch {
   """The unqualified name of the branch to append the commit to."""
   branchName: String
@@ -5857,6 +5859,9 @@ type DiscussionCategory implements Node & RepositoryNode {
   """The repository associated with this node."""
   repository: Repository!
 
+  """The slug of this category."""
+  slug: String!
+
   """Identifies the date and time when the object was last updated."""
   updatedAt: DateTime!
 }
@@ -5935,7 +5940,9 @@ type DiscussionComment implements Comment & Deletable & Minimizable & Node & Rea
   """The moment the editor made the last edit"""
   lastEditedAt: DateTime
 
-  """Returns why the comment was minimized."""
+  """
+  Returns why the comment was minimized. One of `abuse`, `off-topic`, `outdated`, `resolved`, `duplicate` and `spam`. Note that the case and formatting of these values differs from the inputs to the `MinimizeComment` mutation.
+  """
   minimizedReason: String
 
   """Identifies when the comment was published at."""
@@ -6418,7 +6425,7 @@ input EnablePullRequestAutoMergeInput {
   """
   commitHeadline: String
 
-  """The merge method to use. If omitted, defaults to 'MERGE'"""
+  """The merge method to use. If omitted, defaults to `MERGE`"""
   mergeMethod: PullRequestMergeMethod = MERGE
 
   """ID of the pull request to enable auto-merge on."""
@@ -6538,23 +6545,6 @@ type Enterprise implements Node {
 
   """The HTTP URL for this enterprise."""
   url: URI!
-
-  """A list of user accounts on this enterprise."""
-  userAccounts(
-    """Returns the elements in the list that come after the specified cursor."""
-    after: String
-
-    """
-    Returns the elements in the list that come before the specified cursor.
-    """
-    before: String
-
-    """Returns the first _n_ elements from the list."""
-    first: Int
-
-    """Returns the last _n_ elements from the list."""
-    last: Int
-  ): EnterpriseUserAccountConnection! @deprecated(reason: "The `Enterprise.userAccounts` field is being removed. Use the `Enterprise.members` field instead. Removal on 2022-07-01 UTC.")
 
   """Is the current viewer an admin of this enterprise?"""
   viewerIsAdmin: Boolean!
@@ -8212,30 +8202,6 @@ type EnterpriseUserAccount implements Actor & Node {
   user: User
 }
 
-"""The connection type for EnterpriseUserAccount."""
-type EnterpriseUserAccountConnection {
-  """A list of edges."""
-  edges: [EnterpriseUserAccountEdge]
-
-  """A list of nodes."""
-  nodes: [EnterpriseUserAccount]
-
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """Identifies the total count of items in the connection."""
-  totalCount: Int!
-}
-
-"""An edge in a connection."""
-type EnterpriseUserAccountEdge {
-  """A cursor for use in pagination."""
-  cursor: String!
-
-  """The item at the end of the edge."""
-  node: EnterpriseUserAccount
-}
-
 """The possible roles for enterprise membership."""
 enum EnterpriseUserAccountMembershipRole {
   """The user is a member of an organization in the enterprise."""
@@ -8243,6 +8209,11 @@ enum EnterpriseUserAccountMembershipRole {
 
   """The user is an owner of an organization in the enterprise."""
   OWNER
+
+  """
+  The user is not an owner of the enterprise, and not a member or owner of any organizations in the enterprise; only for EMU-enabled enterprises.
+  """
+  UNAFFILIATED
 }
 
 """The possible GitHub Enterprise deployments where this user can exist."""
@@ -8714,7 +8685,9 @@ type GistComment implements Comment & Deletable & Minimizable & Node & Updatable
   """The moment the editor made the last edit"""
   lastEditedAt: DateTime
 
-  """Returns why the comment was minimized."""
+  """
+  Returns why the comment was minimized. One of `abuse`, `off-topic`, `outdated`, `resolved`, `duplicate` and `spam`. Note that the case and formatting of these values differs from the inputs to the `MinimizeComment` mutation.
+  """
   minimizedReason: String
 
   """Identifies when the comment was published at."""
@@ -9862,7 +9835,9 @@ type IssueComment implements Comment & Deletable & Minimizable & Node & Reactabl
   """The moment the editor made the last edit"""
   lastEditedAt: DateTime
 
-  """Returns why the comment was minimized."""
+  """
+  Returns why the comment was minimized. One of `abuse`, `off-topic`, `outdated`, `resolved`, `duplicate` and `spam`. Note that the case and formatting of these values differs from the inputs to the `MinimizeComment` mutation.
+  """
   minimizedReason: String
 
   """Identifies when the comment was published at."""
@@ -11482,14 +11457,8 @@ enum MigrationSourceType {
   """A Bitbucket Server migration source."""
   BITBUCKET_SERVER
 
-  """A GitHub migration source."""
-  GITHUB
-
   """A GitHub Migration API source."""
   GITHUB_ARCHIVE
-
-  """A GitLab migration source."""
-  GITLAB
 }
 
 """The Octoshift migration state."""
@@ -11706,7 +11675,9 @@ interface Minimizable {
   """Returns whether or not a comment has been minimized."""
   isMinimized: Boolean!
 
-  """Returns why the comment was minimized."""
+  """
+  Returns why the comment was minimized. One of `abuse`, `off-topic`, `outdated`, `resolved`, `duplicate` and `spam`. Note that the case and formatting of these values differs from the inputs to the `MinimizeComment` mutation.
+  """
   minimizedReason: String
 
   """Check if the current viewer can minimize this object."""
@@ -12618,7 +12589,7 @@ type Mutation {
     input: UnresolveReviewThreadInput!
   ): UnresolveReviewThreadPayload
 
-  """Create a new branch protection rule"""
+  """Update a branch protection rule"""
   updateBranchProtectionRule(
     """Parameters for UpdateBranchProtectionRule"""
     input: UpdateBranchProtectionRuleInput!
@@ -12816,6 +12787,14 @@ type Mutation {
     input: UpdateOrganizationAllowPrivateRepositoryForkingSettingInput!
   ): UpdateOrganizationAllowPrivateRepositoryForkingSettingPayload
 
+  """
+  Sets whether contributors are required to sign off on web-based commits for repositories in an organization.
+  """
+  updateOrganizationWebCommitSignoffSetting(
+    """Parameters for UpdateOrganizationWebCommitSignoffSetting"""
+    input: UpdateOrganizationWebCommitSignoffSettingInput!
+  ): UpdateOrganizationWebCommitSignoffSettingPayload
+
   """Updates an existing project."""
   updateProject(
     """Parameters for UpdateProject"""
@@ -12915,6 +12894,14 @@ type Mutation {
     """Parameters for UpdateRepository"""
     input: UpdateRepositoryInput!
   ): UpdateRepositoryPayload
+
+  """
+  Sets whether contributors are required to sign off on web-based commits for a repository.
+  """
+  updateRepositoryWebCommitSignoffSetting(
+    """Parameters for UpdateRepositoryWebCommitSignoffSetting"""
+    input: UpdateRepositoryWebCommitSignoffSettingInput!
+  ): UpdateRepositoryWebCommitSignoffSettingPayload
 
   """
   Change visibility of your sponsorship and opt in or out of email updates from the maintainer.
@@ -15703,6 +15690,9 @@ type Organization implements Actor & MemberStatusable & Node & PackageOwner & Pr
 
   """Events involving this sponsorable, such as new sponsorships."""
   sponsorsActivities(
+    """Filter activities to only the specified actions."""
+    actions: [SponsorsActivityAction!] = []
+
     """Returns the elements in the list that come after the specified cursor."""
     after: String
 
@@ -15721,7 +15711,7 @@ type Organization implements Actor & MemberStatusable & Node & PackageOwner & Pr
     orderBy: SponsorsActivityOrder = {direction: DESC, field: TIMESTAMP}
 
     """
-    Filter activities returned to only those that occurred in a given time range.
+    Filter activities returned to only those that occurred in the most recent specified time period. Set to ALL to avoid filtering by when the activity occurred.
     """
     period: SponsorsActivityPeriod = MONTH
   ): SponsorsActivityConnection!
@@ -15895,6 +15885,11 @@ type Organization implements Actor & MemberStatusable & Node & PackageOwner & Pr
 
   """True if the viewer is sponsoring this user/organization."""
   viewerIsSponsoring: Boolean!
+
+  """
+  Whether contributors are required to sign off on web-based commits for repositories in this organization.
+  """
+  webCommitSignoffRequired: Boolean!
 
   """The organization's public profile URL."""
   websiteUrl: URI
@@ -18354,6 +18349,12 @@ type ProjectV2Item implements Node {
   """Identifies the primary key from the database."""
   databaseId: Int
 
+  """A specific field value given a field name"""
+  fieldValueByName(
+    """The name of the field to return the field value of"""
+    name: String!
+  ): ProjectV2ItemFieldValue
+
   """List of field values"""
   fieldValues(
     """Returns the elements in the list that come after the specified cursor."""
@@ -19005,25 +19006,13 @@ type ProjectV2View implements Node {
 
     """Returns the last _n_ elements from the list."""
     last: Int
+
+    """
+    Ordering options for the project v2 fields returned from the connection.
+    """
+    orderBy: ProjectV2FieldOrder = {direction: ASC, field: POSITION}
   ): ProjectV2FieldConnection
   id: ID!
-
-  """The view's filtered items."""
-  items(
-    """Returns the elements in the list that come after the specified cursor."""
-    after: String
-
-    """
-    Returns the elements in the list that come before the specified cursor.
-    """
-    before: String
-
-    """Returns the first _n_ elements from the list."""
-    first: Int
-
-    """Returns the last _n_ elements from the list."""
-    last: Int
-  ): ProjectV2ItemConnection!
 
   """The project view's layout."""
   layout: ProjectV2ViewLayout!
@@ -19072,6 +19061,11 @@ type ProjectV2View implements Node {
 
     """Returns the last _n_ elements from the list."""
     last: Int
+
+    """
+    Ordering options for the project v2 fields returned from the connection.
+    """
+    orderBy: ProjectV2FieldOrder = {direction: ASC, field: POSITION}
   ): ProjectV2FieldConnection
 
   """The view's visible fields."""
@@ -19089,6 +19083,11 @@ type ProjectV2View implements Node {
 
     """Returns the last _n_ elements from the list."""
     last: Int
+
+    """
+    Ordering options for the project v2 fields returned from the connection.
+    """
+    orderBy: ProjectV2FieldOrder = {direction: ASC, field: POSITION}
   ): ProjectV2FieldConnection
 }
 
@@ -19160,23 +19159,6 @@ type ProjectView implements Node {
   """The view's group-by field."""
   groupBy: [Int!] @deprecated(reason: "The `ProjectNext` API is deprecated in favour of the more capable `ProjectV2` API. Follow the ProjectV2 guide at https://github.blog/changelog/2022-06-23-the-new-github-issues-june-23rd-update/, to find a suitable replacement. Removal on 2022-10-01 UTC.")
   id: ID!
-
-  """The view's filtered items."""
-  items(
-    """Returns the elements in the list that come after the specified cursor."""
-    after: String
-
-    """
-    Returns the elements in the list that come before the specified cursor.
-    """
-    before: String
-
-    """Returns the first _n_ elements from the list."""
-    first: Int
-
-    """Returns the last _n_ elements from the list."""
-    last: Int
-  ): ProjectNextItemConnection! @deprecated(reason: "The `ProjectNext` API is deprecated in favour of the more capable `ProjectV2` API. Follow the ProjectV2 guide at https://github.blog/changelog/2022-06-23-the-new-github-issues-june-23rd-update/, to find a suitable replacement. Removal on 2022-10-01 UTC.")
 
   """The project view's layout."""
   layout: ProjectViewLayout! @deprecated(reason: "The `ProjectNext` API is deprecated in favour of the more capable `ProjectV2` API. Follow the ProjectV2 guide at https://github.blog/changelog/2022-06-23-the-new-github-issues-june-23rd-update/, to find a suitable replacement. Removal on 2022-10-01 UTC.")
@@ -20408,7 +20390,9 @@ type PullRequestReviewComment implements Comment & Deletable & Minimizable & Nod
   """The moment the editor made the last edit"""
   lastEditedAt: DateTime
 
-  """Returns why the comment was minimized."""
+  """
+  Returns why the comment was minimized. One of `abuse`, `off-topic`, `outdated`, `resolved`, `duplicate` and `spam`. Note that the case and formatting of these values differs from the inputs to the `MinimizeComment` mutation.
+  """
   minimizedReason: String
 
   """Identifies the original commit associated with the comment."""
@@ -20783,6 +20767,57 @@ type PullRequestTemplate {
 
   """The repository the template belongs to"""
   repository: Repository!
+}
+
+"""A threaded list of comments for a given pull request."""
+type PullRequestThread implements Node {
+  """A list of pull request comments associated with the thread."""
+  comments(
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """Skips the first _n_ elements in the list."""
+    skip: Int
+  ): PullRequestReviewCommentConnection!
+  id: ID!
+
+  """Whether or not the thread has been collapsed (resolved)"""
+  isCollapsed: Boolean!
+
+  """Indicates whether this thread was outdated by newer changes."""
+  isOutdated: Boolean!
+
+  """Whether this thread has been resolved"""
+  isResolved: Boolean!
+
+  """Identifies the pull request associated with this thread."""
+  pullRequest: PullRequest!
+
+  """Identifies the repository associated with this thread."""
+  repository: Repository!
+
+  """The user who resolved this thread"""
+  resolvedBy: User
+
+  """Indicates whether the current viewer can reply to this thread."""
+  viewerCanReply: Boolean!
+
+  """Whether or not the viewer can resolve this thread"""
+  viewerCanResolve: Boolean!
+
+  """Whether or not the viewer can unresolve this thread"""
+  viewerCanUnresolve: Boolean!
 }
 
 """The connection type for PullRequestTimelineItem."""
@@ -24165,6 +24200,12 @@ type Repository implements Node & PackageOwner & ProjectOwner & ProjectV2Recent 
     last: Int
   ): DiscussionCategoryConnection!
 
+  """A discussion category by slug."""
+  discussionCategory(
+    """The slug of the discussion category to be returned."""
+    slug: String!
+  ): DiscussionCategory
+
   """A list of discussions that have been opened in the repository."""
   discussions(
     """Returns the elements in the list that come after the specified cursor."""
@@ -24989,6 +25030,11 @@ type Repository implements Node & PackageOwner & ProjectOwner & ProjectV2Recent 
     """Returns the last _n_ elements from the list."""
     last: Int
   ): UserConnection!
+
+  """
+  Whether contributors are required to sign off on web-based commits in this repository.
+  """
+  webCommitSignoffRequired: Boolean!
 }
 
 """The affiliation of a user to a repository"""
@@ -25858,6 +25904,9 @@ type RepositoryVulnerabilityAlert implements Node & RepositoryNode {
   """The scope of an alert's dependency"""
   dependencyScope: RepositoryVulnerabilityAlertDependencyScope
 
+  """Comment explaining the reason the alert was dismissed"""
+  dismissComment: String
+
   """The reason the alert was dismissed"""
   dismissReason: String
 
@@ -26638,6 +26687,9 @@ type SecurityAdvisoryConnection {
 
 """The possible ecosystems of a security vulnerability's package."""
 enum SecurityAdvisoryEcosystem {
+  """GitHub Actions"""
+  ACTIONS
+
   """PHP packages hosted at packagist.org"""
   COMPOSER
 
@@ -27086,6 +27138,9 @@ interface Sponsorable {
 
   """Events involving this sponsorable, such as new sponsorships."""
   sponsorsActivities(
+    """Filter activities to only the specified actions."""
+    actions: [SponsorsActivityAction!] = []
+
     """Returns the elements in the list that come after the specified cursor."""
     after: String
 
@@ -27104,7 +27159,7 @@ interface Sponsorable {
     orderBy: SponsorsActivityOrder = {direction: DESC, field: TIMESTAMP}
 
     """
-    Filter activities returned to only those that occurred in a given time range.
+    Filter activities returned to only those that occurred in the most recent specified time period. Set to ALL to avoid filtering by when the activity occurred.
     """
     period: SponsorsActivityPeriod = MONTH
   ): SponsorsActivityConnection!
@@ -27845,6 +27900,9 @@ input StartRepositoryMigrationInput {
   """
   githubPat: String
 
+  """Whether to lock the source repository."""
+  lockSource: Boolean
+
   """The signed URL to access the user-uploaded metadata archive"""
   metadataArchiveUrl: String
 
@@ -27862,6 +27920,9 @@ input StartRepositoryMigrationInput {
 
   """The Octoshift migration source repository URL."""
   sourceRepositoryUrl: URI!
+
+  """The visibility of the imported repository."""
+  targetRepoVisibility: String
 }
 
 """Autogenerated return type of StartRepositoryMigration"""
@@ -28401,7 +28462,9 @@ type Team implements MemberStatusable & Node & Subscribable {
     """Order for the connection."""
     orderBy: TeamRepositoryOrder
 
-    """The search string to look for."""
+    """
+    The search string to look for. Repositories will be returned where the name contains your search string.
+    """
     query: String
   ): TeamRepositoryConnection!
 
@@ -29574,6 +29637,11 @@ input TransferIssueInput {
   """A unique identifier for the client performing the mutation."""
   clientMutationId: String
 
+  """
+  Whether to create labels if they don't exist in the target repository (matched by name)
+  """
+  createLabelsIfMissing: Boolean = false
+
   """The Node ID of the issue to be transferred"""
   issueId: ID!
 
@@ -29656,6 +29724,9 @@ type TreeEntry {
 
   """The Repository the tree entry belongs to"""
   repository: Repository!
+
+  """Entry byte size"""
+  size: Int!
 
   """
   If the TreeEntry is for a directory occupied by a submodule project, this returns the corresponding submodule
@@ -31046,6 +31117,36 @@ type UpdateOrganizationAllowPrivateRepositoryForkingSettingPayload {
   organization: Organization
 }
 
+"""Autogenerated input type of UpdateOrganizationWebCommitSignoffSetting"""
+input UpdateOrganizationWebCommitSignoffSettingInput {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+
+  """
+  The ID of the organization on which to set the web commit signoff setting.
+  """
+  organizationId: ID!
+
+  """
+  Enable signoff on web-based commits for repositories in the organization?
+  """
+  webCommitSignoffRequired: Boolean!
+}
+
+"""Autogenerated return type of UpdateOrganizationWebCommitSignoffSetting"""
+type UpdateOrganizationWebCommitSignoffSettingPayload {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+
+  """
+  A message confirming the result of updating the web commit signoff setting.
+  """
+  message: String
+
+  """The organization with the updated web commit signoff setting."""
+  organization: Organization
+}
+
 """Autogenerated input type of UpdateProjectCard"""
 input UpdateProjectCardInput {
   """A unique identifier for the client performing the mutation."""
@@ -31512,6 +31613,34 @@ input UpdateRepositoryInput {
 type UpdateRepositoryPayload {
   """A unique identifier for the client performing the mutation."""
   clientMutationId: String
+
+  """The updated repository."""
+  repository: Repository
+}
+
+"""Autogenerated input type of UpdateRepositoryWebCommitSignoffSetting"""
+input UpdateRepositoryWebCommitSignoffSettingInput {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+
+  """The ID of the repository to update."""
+  repositoryId: ID!
+
+  """
+  Indicates if the repository should require signoff on web-based commits.
+  """
+  webCommitSignoffRequired: Boolean!
+}
+
+"""Autogenerated return type of UpdateRepositoryWebCommitSignoffSetting"""
+type UpdateRepositoryWebCommitSignoffSettingPayload {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+
+  """
+  A message confirming the result of updating the web commit signoff setting.
+  """
+  message: String
 
   """The updated repository."""
   repository: Repository
@@ -32466,6 +32595,9 @@ type User implements Actor & Node & PackageOwner & ProfileOwner & ProjectNextOwn
 
   """Events involving this sponsorable, such as new sponsorships."""
   sponsorsActivities(
+    """Filter activities to only the specified actions."""
+    actions: [SponsorsActivityAction!] = []
+
     """Returns the elements in the list that come after the specified cursor."""
     after: String
 
@@ -32484,7 +32616,7 @@ type User implements Actor & Node & PackageOwner & ProfileOwner & ProjectNextOwn
     orderBy: SponsorsActivityOrder = {direction: DESC, field: TIMESTAMP}
 
     """
-    Filter activities returned to only those that occurred in a given time range.
+    Filter activities returned to only those that occurred in the most recent specified time period. Set to ALL to avoid filtering by when the activity occurred.
     """
     period: SponsorsActivityPeriod = MONTH
   ): SponsorsActivityConnection!

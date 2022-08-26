@@ -2184,7 +2184,7 @@ type CommitComment = Comment & Deletable & Minimizable & Node & Reactable & Repo
   isMinimized: Scalars['Boolean'];
   /** The moment the editor made the last edit */
   lastEditedAt?: Maybe<Scalars['DateTime']>;
-  /** Returns why the comment was minimized. */
+  /** Returns why the comment was minimized. One of `abuse`, `off-topic`, `outdated`, `resolved`, `duplicate` and `spam`. Note that the case and formatting of these values differs from the inputs to the `MinimizeComment` mutation. */
   minimizedReason?: Maybe<Scalars['String']>;
   /** Identifies the file path associated with the comment. */
   path?: Maybe<Scalars['String']>;
@@ -2370,7 +2370,7 @@ type CommitMessage = {
  * qualified).
  *
  * The Ref may be specified by its global node ID or by the
- * repository nameWithOwner and branch name.
+ * `repositoryNameWithOwner` and `branchName`.
  *
  * ### Examples
  *
@@ -2378,10 +2378,10 @@ type CommitMessage = {
  *
  *     { "id": "MDM6UmVmMTpyZWZzL2hlYWRzL21haW4=" }
  *
- * Specify a branch using nameWithOwner and branch name:
+ * Specify a branch using `repositoryNameWithOwner` and `branchName`:
  *
  *     {
- *       "nameWithOwner": "github/graphql-client",
+ *       "repositoryNameWithOwner": "github/graphql-client",
  *       "branchName": "main"
  *     }
  *
@@ -4553,6 +4553,8 @@ type DiscussionCategory = Node & RepositoryNode & {
   name: Scalars['String'];
   /** The repository associated with this node. */
   repository: Repository;
+  /** The slug of this category. */
+  slug: Scalars['String'];
   /** Identifies the date and time when the object was last updated. */
   updatedAt: Scalars['DateTime'];
 };
@@ -4610,7 +4612,7 @@ type DiscussionComment = Comment & Deletable & Minimizable & Node & Reactable & 
   isMinimized: Scalars['Boolean'];
   /** The moment the editor made the last edit */
   lastEditedAt?: Maybe<Scalars['DateTime']>;
-  /** Returns why the comment was minimized. */
+  /** Returns why the comment was minimized. One of `abuse`, `off-topic`, `outdated`, `resolved`, `duplicate` and `spam`. Note that the case and formatting of these values differs from the inputs to the `MinimizeComment` mutation. */
   minimizedReason?: Maybe<Scalars['String']>;
   /** Identifies when the comment was published at. */
   publishedAt?: Maybe<Scalars['DateTime']>;
@@ -4957,7 +4959,7 @@ type EnablePullRequestAutoMergeInput = {
   commitBody?: InputMaybe<Scalars['String']>;
   /** Commit headline to use for the commit when the PR is mergable; if omitted, a default message will be used. */
   commitHeadline?: InputMaybe<Scalars['String']>;
-  /** The merge method to use. If omitted, defaults to 'MERGE' */
+  /** The merge method to use. If omitted, defaults to `MERGE` */
   mergeMethod?: InputMaybe<PullRequestMergeMethod>;
   /** ID of the pull request to enable auto-merge on. */
   pullRequestId: Scalars['ID'];
@@ -5004,11 +5006,6 @@ type Enterprise = Node & {
   slug: Scalars['String'];
   /** The HTTP URL for this enterprise. */
   url: Scalars['URI'];
-  /**
-   * A list of user accounts on this enterprise.
-   * @deprecated The `Enterprise.userAccounts` field is being removed. Use the `Enterprise.members` field instead. Removal on 2022-07-01 UTC.
-   */
-  userAccounts: EnterpriseUserAccountConnection;
   /** Is the current viewer an admin of this enterprise? */
   viewerIsAdmin: Scalars['Boolean'];
   /** The URL of the enterprise website. */
@@ -5045,15 +5042,6 @@ type EnterpriseOrganizationsArgs = {
   orderBy?: InputMaybe<OrganizationOrder>;
   query?: InputMaybe<Scalars['String']>;
   viewerOrganizationRole?: InputMaybe<RoleInOrganization>;
-};
-
-
-/** An account to manage multiple organizations with consolidated policy and billing. */
-type EnterpriseUserAccountsArgs = {
-  after?: InputMaybe<Scalars['String']>;
-  before?: InputMaybe<Scalars['String']>;
-  first?: InputMaybe<Scalars['Int']>;
-  last?: InputMaybe<Scalars['Int']>;
 };
 
 /** The connection type for User. */
@@ -6073,32 +6061,14 @@ type EnterpriseUserAccountOrganizationsArgs = {
   role?: InputMaybe<EnterpriseUserAccountMembershipRole>;
 };
 
-/** The connection type for EnterpriseUserAccount. */
-type EnterpriseUserAccountConnection = {
-  /** A list of edges. */
-  edges?: Maybe<Array<Maybe<EnterpriseUserAccountEdge>>>;
-  /** A list of nodes. */
-  nodes?: Maybe<Array<Maybe<EnterpriseUserAccount>>>;
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo;
-  /** Identifies the total count of items in the connection. */
-  totalCount: Scalars['Int'];
-};
-
-/** An edge in a connection. */
-type EnterpriseUserAccountEdge = {
-  /** A cursor for use in pagination. */
-  cursor: Scalars['String'];
-  /** The item at the end of the edge. */
-  node?: Maybe<EnterpriseUserAccount>;
-};
-
 /** The possible roles for enterprise membership. */
 enum EnterpriseUserAccountMembershipRole {
   /** The user is a member of an organization in the enterprise. */
   Member = 'MEMBER',
   /** The user is an owner of an organization in the enterprise. */
-  Owner = 'OWNER'
+  Owner = 'OWNER',
+  /** The user is not an owner of the enterprise, and not a member or owner of any organizations in the enterprise; only for EMU-enabled enterprises. */
+  Unaffiliated = 'UNAFFILIATED'
 }
 
 /** The possible GitHub Enterprise deployments where this user can exist. */
@@ -6576,7 +6546,7 @@ type GistComment = Comment & Deletable & Minimizable & Node & Updatable & Updata
   isMinimized: Scalars['Boolean'];
   /** The moment the editor made the last edit */
   lastEditedAt?: Maybe<Scalars['DateTime']>;
-  /** Returns why the comment was minimized. */
+  /** Returns why the comment was minimized. One of `abuse`, `off-topic`, `outdated`, `resolved`, `duplicate` and `spam`. Note that the case and formatting of these values differs from the inputs to the `MinimizeComment` mutation. */
   minimizedReason?: Maybe<Scalars['String']>;
   /** Identifies when the comment was published at. */
   publishedAt?: Maybe<Scalars['DateTime']>;
@@ -7393,7 +7363,7 @@ type IssueComment = Comment & Deletable & Minimizable & Node & Reactable & Repos
   issue: Issue;
   /** The moment the editor made the last edit */
   lastEditedAt?: Maybe<Scalars['DateTime']>;
-  /** Returns why the comment was minimized. */
+  /** Returns why the comment was minimized. One of `abuse`, `off-topic`, `outdated`, `resolved`, `duplicate` and `spam`. Note that the case and formatting of these values differs from the inputs to the `MinimizeComment` mutation. */
   minimizedReason?: Maybe<Scalars['String']>;
   /** Identifies when the comment was published at. */
   publishedAt?: Maybe<Scalars['DateTime']>;
@@ -8581,12 +8551,8 @@ enum MigrationSourceType {
   AzureDevops = 'AZURE_DEVOPS',
   /** A Bitbucket Server migration source. */
   BitbucketServer = 'BITBUCKET_SERVER',
-  /** A GitHub migration source. */
-  Github = 'GITHUB',
   /** A GitHub Migration API source. */
-  GithubArchive = 'GITHUB_ARCHIVE',
-  /** A GitLab migration source. */
-  Gitlab = 'GITLAB'
+  GithubArchive = 'GITHUB_ARCHIVE'
 }
 
 /** The Octoshift migration state. */
@@ -8739,7 +8705,7 @@ type MilestonedEvent = Node & {
 type Minimizable = {
   /** Returns whether or not a comment has been minimized. */
   isMinimized: Scalars['Boolean'];
-  /** Returns why the comment was minimized. */
+  /** Returns why the comment was minimized. One of `abuse`, `off-topic`, `outdated`, `resolved`, `duplicate` and `spam`. Note that the case and formatting of these values differs from the inputs to the `MinimizeComment` mutation. */
   minimizedReason?: Maybe<Scalars['String']>;
   /** Check if the current viewer can minimize this object. */
   viewerCanMinimize: Scalars['Boolean'];
@@ -9131,7 +9097,7 @@ type Mutation = {
   unpinIssue?: Maybe<UnpinIssuePayload>;
   /** Marks a review thread as unresolved. */
   unresolveReviewThread?: Maybe<UnresolveReviewThreadPayload>;
-  /** Create a new branch protection rule */
+  /** Update a branch protection rule */
   updateBranchProtectionRule?: Maybe<UpdateBranchProtectionRulePayload>;
   /** Update a check run */
   updateCheckRun?: Maybe<UpdateCheckRunPayload>;
@@ -9191,6 +9157,8 @@ type Mutation = {
   updateNotificationRestrictionSetting?: Maybe<UpdateNotificationRestrictionSettingPayload>;
   /** Sets whether private repository forks are enabled for an organization. */
   updateOrganizationAllowPrivateRepositoryForkingSetting?: Maybe<UpdateOrganizationAllowPrivateRepositoryForkingSettingPayload>;
+  /** Sets whether contributors are required to sign off on web-based commits for repositories in an organization. */
+  updateOrganizationWebCommitSignoffSetting?: Maybe<UpdateOrganizationWebCommitSignoffSettingPayload>;
   /** Updates an existing project. */
   updateProject?: Maybe<UpdateProjectPayload>;
   /** Updates an existing project card. */
@@ -9232,6 +9200,8 @@ type Mutation = {
   updateRef?: Maybe<UpdateRefPayload>;
   /** Update information about a repository. */
   updateRepository?: Maybe<UpdateRepositoryPayload>;
+  /** Sets whether contributors are required to sign off on web-based commits for a repository. */
+  updateRepositoryWebCommitSignoffSetting?: Maybe<UpdateRepositoryWebCommitSignoffSettingPayload>;
   /** Change visibility of your sponsorship and opt in or out of email updates from the maintainer. */
   updateSponsorshipPreferences?: Maybe<UpdateSponsorshipPreferencesPayload>;
   /** Updates the state for subscribable subjects. */
@@ -10222,6 +10192,12 @@ type MutationUpdateOrganizationAllowPrivateRepositoryForkingSettingArgs = {
 
 
 /** The root query for implementing GraphQL mutations. */
+type MutationUpdateOrganizationWebCommitSignoffSettingArgs = {
+  input: UpdateOrganizationWebCommitSignoffSettingInput;
+};
+
+
+/** The root query for implementing GraphQL mutations. */
 type MutationUpdateProjectArgs = {
   input: UpdateProjectInput;
 };
@@ -10314,6 +10290,12 @@ type MutationUpdateRefArgs = {
 /** The root query for implementing GraphQL mutations. */
 type MutationUpdateRepositoryArgs = {
   input: UpdateRepositoryInput;
+};
+
+
+/** The root query for implementing GraphQL mutations. */
+type MutationUpdateRepositoryWebCommitSignoffSettingArgs = {
+  input: UpdateRepositoryWebCommitSignoffSettingInput;
 };
 
 
@@ -11958,6 +11940,8 @@ type Organization = Actor & MemberStatusable & Node & PackageOwner & ProfileOwne
   viewerIsFollowing: Scalars['Boolean'];
   /** True if the viewer is sponsoring this user/organization. */
   viewerIsSponsoring: Scalars['Boolean'];
+  /** Whether contributors are required to sign off on web-based commits for repositories in this organization. */
+  webCommitSignoffRequired: Scalars['Boolean'];
   /** The organization's public profile URL. */
   websiteUrl?: Maybe<Scalars['URI']>;
 };
@@ -12228,6 +12212,7 @@ type OrganizationSponsorsArgs = {
 
 /** An account on GitHub, with one or more owners, that has repositories, members and teams. */
 type OrganizationSponsorsActivitiesArgs = {
+  actions?: InputMaybe<Array<SponsorsActivityAction>>;
   after?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
   first?: InputMaybe<Scalars['Int']>;
@@ -14314,6 +14299,8 @@ type ProjectV2Item = Node & {
   creator?: Maybe<Actor>;
   /** Identifies the primary key from the database. */
   databaseId?: Maybe<Scalars['Int']>;
+  /** A specific field value given a field name */
+  fieldValueByName?: Maybe<ProjectV2ItemFieldValue>;
   /** List of field values */
   fieldValues: ProjectV2ItemFieldValueConnection;
   id: Scalars['ID'];
@@ -14325,6 +14312,12 @@ type ProjectV2Item = Node & {
   type: ProjectV2ItemType;
   /** Identifies the date and time when the object was last updated. */
   updatedAt: Scalars['DateTime'];
+};
+
+
+/** An item within a Project. */
+type ProjectV2ItemFieldValueByNameArgs = {
+  name: Scalars['String'];
 };
 
 
@@ -14806,8 +14799,6 @@ type ProjectV2View = Node & {
   /** The view's group-by field. */
   groupBy?: Maybe<ProjectV2FieldConnection>;
   id: Scalars['ID'];
-  /** The view's filtered items. */
-  items: ProjectV2ItemConnection;
   /** The project view's layout. */
   layout: ProjectV2ViewLayout;
   /** The project view's name. */
@@ -14833,15 +14824,7 @@ type ProjectV2ViewGroupByArgs = {
   before?: InputMaybe<Scalars['String']>;
   first?: InputMaybe<Scalars['Int']>;
   last?: InputMaybe<Scalars['Int']>;
-};
-
-
-/** A view within a ProjectV2. */
-type ProjectV2ViewItemsArgs = {
-  after?: InputMaybe<Scalars['String']>;
-  before?: InputMaybe<Scalars['String']>;
-  first?: InputMaybe<Scalars['Int']>;
-  last?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<ProjectV2FieldOrder>;
 };
 
 
@@ -14860,6 +14843,7 @@ type ProjectV2ViewVerticalGroupByArgs = {
   before?: InputMaybe<Scalars['String']>;
   first?: InputMaybe<Scalars['Int']>;
   last?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<ProjectV2FieldOrder>;
 };
 
 
@@ -14869,6 +14853,7 @@ type ProjectV2ViewVisibleFieldsArgs = {
   before?: InputMaybe<Scalars['String']>;
   first?: InputMaybe<Scalars['Int']>;
   last?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<ProjectV2FieldOrder>;
 };
 
 /** The connection type for ProjectV2View. */
@@ -14941,11 +14926,6 @@ type ProjectView = Node & {
   groupBy?: Maybe<Array<Scalars['Int']>>;
   id: Scalars['ID'];
   /**
-   * The view's filtered items.
-   * @deprecated The `ProjectNext` API is deprecated in favour of the more capable `ProjectV2` API. Follow the ProjectV2 guide at https://github.blog/changelog/2022-06-23-the-new-github-issues-june-23rd-update/, to find a suitable replacement. Removal on 2022-10-01 UTC.
-   */
-  items: ProjectNextItemConnection;
-  /**
    * The project view's layout.
    * @deprecated The `ProjectNext` API is deprecated in favour of the more capable `ProjectV2` API. Follow the ProjectV2 guide at https://github.blog/changelog/2022-06-23-the-new-github-issues-june-23rd-update/, to find a suitable replacement. Removal on 2022-10-01 UTC.
    */
@@ -14985,15 +14965,6 @@ type ProjectView = Node & {
    * @deprecated The `ProjectNext` API is deprecated in favour of the more capable `ProjectV2` API. Follow the ProjectV2 guide at https://github.blog/changelog/2022-06-23-the-new-github-issues-june-23rd-update/, to find a suitable replacement. Removal on 2022-10-01 UTC.
    */
   visibleFields?: Maybe<Array<Scalars['Int']>>;
-};
-
-
-/** A view within a Project. */
-type ProjectViewItemsArgs = {
-  after?: InputMaybe<Scalars['String']>;
-  before?: InputMaybe<Scalars['String']>;
-  first?: InputMaybe<Scalars['Int']>;
-  last?: InputMaybe<Scalars['Int']>;
 };
 
 /** The connection type for ProjectView. */
@@ -15804,7 +15775,7 @@ type PullRequestReviewComment = Comment & Deletable & Minimizable & Node & React
   isMinimized: Scalars['Boolean'];
   /** The moment the editor made the last edit */
   lastEditedAt?: Maybe<Scalars['DateTime']>;
-  /** Returns why the comment was minimized. */
+  /** Returns why the comment was minimized. One of `abuse`, `off-topic`, `outdated`, `resolved`, `duplicate` and `spam`. Note that the case and formatting of these values differs from the inputs to the `MinimizeComment` mutation. */
   minimizedReason?: Maybe<Scalars['String']>;
   /** Identifies the original commit associated with the comment. */
   originalCommit?: Maybe<Commit>;
@@ -16073,6 +16044,41 @@ type PullRequestTemplate = {
   filename?: Maybe<Scalars['String']>;
   /** The repository the template belongs to */
   repository: Repository;
+};
+
+/** A threaded list of comments for a given pull request. */
+type PullRequestThread = Node & {
+  /** A list of pull request comments associated with the thread. */
+  comments: PullRequestReviewCommentConnection;
+  id: Scalars['ID'];
+  /** Whether or not the thread has been collapsed (resolved) */
+  isCollapsed: Scalars['Boolean'];
+  /** Indicates whether this thread was outdated by newer changes. */
+  isOutdated: Scalars['Boolean'];
+  /** Whether this thread has been resolved */
+  isResolved: Scalars['Boolean'];
+  /** Identifies the pull request associated with this thread. */
+  pullRequest: PullRequest;
+  /** Identifies the repository associated with this thread. */
+  repository: Repository;
+  /** The user who resolved this thread */
+  resolvedBy?: Maybe<User>;
+  /** Indicates whether the current viewer can reply to this thread. */
+  viewerCanReply: Scalars['Boolean'];
+  /** Whether or not the viewer can resolve this thread */
+  viewerCanResolve: Scalars['Boolean'];
+  /** Whether or not the viewer can unresolve this thread */
+  viewerCanUnresolve: Scalars['Boolean'];
+};
+
+
+/** A threaded list of comments for a given pull request. */
+type PullRequestThreadCommentsArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  skip?: InputMaybe<Scalars['Int']>;
 };
 
 /** The connection type for PullRequestTimelineItem. */
@@ -18404,6 +18410,8 @@ type Repository = Node & PackageOwner & ProjectOwner & ProjectV2Recent & Reposit
   discussion?: Maybe<Discussion>;
   /** A list of discussion categories that are available in the repository. */
   discussionCategories: DiscussionCategoryConnection;
+  /** A discussion category by slug. */
+  discussionCategory?: Maybe<DiscussionCategory>;
   /** A list of discussions that have been opened in the repository. */
   discussions: DiscussionConnection;
   /** The number of kilobytes this repository occupies on disk. */
@@ -18606,6 +18614,8 @@ type Repository = Node & PackageOwner & ProjectOwner & ProjectV2Recent & Reposit
   vulnerabilityAlerts?: Maybe<RepositoryVulnerabilityAlertConnection>;
   /** A list of users watching the repository. */
   watchers: UserConnection;
+  /** Whether contributors are required to sign off on web-based commits in this repository. */
+  webCommitSignoffRequired: Scalars['Boolean'];
 };
 
 
@@ -18687,6 +18697,12 @@ type RepositoryDiscussionCategoriesArgs = {
   filterByAssignable?: InputMaybe<Scalars['Boolean']>;
   first?: InputMaybe<Scalars['Int']>;
   last?: InputMaybe<Scalars['Int']>;
+};
+
+
+/** A repository contains the content for a project. */
+type RepositoryDiscussionCategoryArgs = {
+  slug: Scalars['String'];
 };
 
 
@@ -19641,6 +19657,8 @@ type RepositoryVulnerabilityAlert = Node & RepositoryNode & {
   dependabotUpdate?: Maybe<DependabotUpdate>;
   /** The scope of an alert's dependency */
   dependencyScope?: Maybe<RepositoryVulnerabilityAlertDependencyScope>;
+  /** Comment explaining the reason the alert was dismissed */
+  dismissComment?: Maybe<Scalars['String']>;
   /** The reason the alert was dismissed */
   dismissReason?: Maybe<Scalars['String']>;
   /** When was the alert dismissed? */
@@ -20252,6 +20270,8 @@ type SecurityAdvisoryConnection = {
 
 /** The possible ecosystems of a security vulnerability's package. */
 enum SecurityAdvisoryEcosystem {
+  /** GitHub Actions */
+  Actions = 'ACTIONS',
   /** PHP packages hosted at packagist.org */
   Composer = 'COMPOSER',
   /** Erlang/Elixir packages hosted at hex.pm */
@@ -20628,6 +20648,7 @@ type SponsorableSponsorsArgs = {
 
 /** Entities that can be sponsored through GitHub Sponsors */
 type SponsorableSponsorsActivitiesArgs = {
+  actions?: InputMaybe<Array<SponsorsActivityAction>>;
   after?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
   first?: InputMaybe<Scalars['Int']>;
@@ -21146,6 +21167,8 @@ type StartRepositoryMigrationInput = {
   gitArchiveUrl?: InputMaybe<Scalars['String']>;
   /** The GitHub personal access token of the user importing to the target repository. */
   githubPat?: InputMaybe<Scalars['String']>;
+  /** Whether to lock the source repository. */
+  lockSource?: InputMaybe<Scalars['Boolean']>;
   /** The signed URL to access the user-uploaded metadata archive */
   metadataArchiveUrl?: InputMaybe<Scalars['String']>;
   /** The ID of the organization that will own the imported repository. */
@@ -21158,6 +21181,8 @@ type StartRepositoryMigrationInput = {
   sourceId: Scalars['ID'];
   /** The Octoshift migration source repository URL. */
   sourceRepositoryUrl: Scalars['URI'];
+  /** The visibility of the imported repository. */
+  targetRepoVisibility?: InputMaybe<Scalars['String']>;
 };
 
 /** Autogenerated return type of StartRepositoryMigration */
@@ -22375,6 +22400,8 @@ enum TrackedIssueStates {
 type TransferIssueInput = {
   /** A unique identifier for the client performing the mutation. */
   clientMutationId?: InputMaybe<Scalars['String']>;
+  /** Whether to create labels if they don't exist in the target repository (matched by name) */
+  createLabelsIfMissing?: InputMaybe<Scalars['Boolean']>;
   /** The Node ID of the issue to be transferred */
   issueId: Scalars['ID'];
   /** The Node ID of the repository the issue should be transferred to */
@@ -22439,6 +22466,8 @@ type TreeEntry = {
   path?: Maybe<Scalars['String']>;
   /** The Repository the tree entry belongs to */
   repository: Repository;
+  /** Entry byte size */
+  size: Scalars['Int'];
   /** If the TreeEntry is for a directory occupied by a submodule project, this returns the corresponding submodule */
   submodule?: Maybe<Submodule>;
   /** Entry file type. */
@@ -23420,6 +23449,26 @@ type UpdateOrganizationAllowPrivateRepositoryForkingSettingPayload = {
   organization?: Maybe<Organization>;
 };
 
+/** Autogenerated input type of UpdateOrganizationWebCommitSignoffSetting */
+type UpdateOrganizationWebCommitSignoffSettingInput = {
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: InputMaybe<Scalars['String']>;
+  /** The ID of the organization on which to set the web commit signoff setting. */
+  organizationId: Scalars['ID'];
+  /** Enable signoff on web-based commits for repositories in the organization? */
+  webCommitSignoffRequired: Scalars['Boolean'];
+};
+
+/** Autogenerated return type of UpdateOrganizationWebCommitSignoffSetting */
+type UpdateOrganizationWebCommitSignoffSettingPayload = {
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** A message confirming the result of updating the web commit signoff setting. */
+  message?: Maybe<Scalars['String']>;
+  /** The organization with the updated web commit signoff setting. */
+  organization?: Maybe<Organization>;
+};
+
 /** Autogenerated input type of UpdateProjectCard */
 type UpdateProjectCardInput = {
   /** A unique identifier for the client performing the mutation. */
@@ -23860,6 +23909,26 @@ type UpdateRepositoryInput = {
 type UpdateRepositoryPayload = {
   /** A unique identifier for the client performing the mutation. */
   clientMutationId?: Maybe<Scalars['String']>;
+  /** The updated repository. */
+  repository?: Maybe<Repository>;
+};
+
+/** Autogenerated input type of UpdateRepositoryWebCommitSignoffSetting */
+type UpdateRepositoryWebCommitSignoffSettingInput = {
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: InputMaybe<Scalars['String']>;
+  /** The ID of the repository to update. */
+  repositoryId: Scalars['ID'];
+  /** Indicates if the repository should require signoff on web-based commits. */
+  webCommitSignoffRequired: Scalars['Boolean'];
+};
+
+/** Autogenerated return type of UpdateRepositoryWebCommitSignoffSetting */
+type UpdateRepositoryWebCommitSignoffSettingPayload = {
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** A message confirming the result of updating the web commit signoff setting. */
+  message?: Maybe<Scalars['String']>;
   /** The updated repository. */
   repository?: Maybe<Repository>;
 };
@@ -24527,6 +24596,7 @@ type UserSponsorsArgs = {
 
 /** A user is an individual's account on GitHub that owns repositories and can make new content. */
 type UserSponsorsActivitiesArgs = {
+  actions?: InputMaybe<Array<SponsorsActivityAction>>;
   after?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
   first?: InputMaybe<Scalars['Int']>;

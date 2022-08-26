@@ -1,1 +1,2 @@
-export default 'div'
+const div = 'div'
+export default div
