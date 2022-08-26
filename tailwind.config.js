@@ -6,10 +6,4 @@ module.exports = {
     './src/components/**/*.{js,ts,jsx,tsx}',
     './src/pages/**/*.{js,ts,jsx,tsx}',
   ],
-  theme: {
-    fontFamily: {
-      ...defaultTheme.fontFamily,
-      sans: ['Inter', ...defaultTheme.fontFamily.sans],
-    },
-  },
 }
