@@ -12,12 +12,8 @@
       "type": "msedge",
       "request": "launch",
       "url": "http://localhost:3000",
-      "webRoot": "${workspaceFolder}/src",
-      "sourceMaps": true,
-      "sourceMapPathOverrides": {
-        "webpack:///./src/*": "${webRoot}/dist/*",
-        "webpack:///src/*": "${webRoot}/dist/*"
-      }
+      "webRoot": "${workspaceFolder}",
+      "sourceMaps": true
     },
     {
       "name": "Next.js: debug full stack",
