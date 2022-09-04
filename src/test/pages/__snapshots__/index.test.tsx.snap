@@ -3,10 +3,10 @@
 exports[`Home page matches snapshot 1`] = `
 <DocumentFragment>
   <main
-    class="flex flex-col w-full h-full"
+    class="flex h-full w-full flex-col"
   >
     <div
-      class="max-w-4xl p-5 m-auto"
+      class="m-auto max-w-4xl p-5"
     >
       <div>
         <h1
@@ -15,7 +15,7 @@ exports[`Home page matches snapshot 1`] = `
           Ivan Ivanov
         </h1>
         <div
-          class="flex items-center mt-1 text-2xl sm:mt-3 sm:text-4xl"
+          class="mt-1 flex items-center text-2xl sm:mt-3 sm:text-4xl"
         >
           <a
             class="mr-4"
@@ -31,7 +31,7 @@ exports[`Home page matches snapshot 1`] = `
             title="My Github"
           >
             <div
-              class="w-6 h-6 sm:w-9 sm:h-9"
+              class="h-6 w-6 sm:h-9 sm:w-9"
             />
           </a>
         </div>
@@ -45,17 +45,17 @@ exports[`Home page matches snapshot 1`] = `
           Some of my projects:
         </h2>
         <ol
-          class="flex flex-wrap -m-2"
+          class="-m-2 flex flex-wrap"
         >
           <li
-            class="flex-grow w-full p-4 m-2 border border-gray-300 rounded-lg md:w-5/12 dark:border-gray-700"
+            class="m-2 w-full flex-grow rounded-lg border border-gray-300 p-4 dark:border-gray-700 md:w-5/12"
           >
             <div>
               <div
                 class="flex flex-row"
               >
                 <div
-                  class="flex flex-col items-start mr-2 text-lg font-semibold"
+                  class="mr-2 flex flex-col items-start text-lg font-semibold"
                 >
                   <span>
                     website: 
@@ -65,7 +65,7 @@ exports[`Home page matches snapshot 1`] = `
                   </span>
                 </div>
                 <div
-                  class="flex flex-col flex-grow text-lg font-semibold"
+                  class="flex flex-grow flex-col text-lg font-semibold"
                 >
                   <a
                     href="https://astragal74.ru"
@@ -97,14 +97,14 @@ exports[`Home page matches snapshot 1`] = `
             </div>
           </li>
           <li
-            class="flex-grow w-full p-4 m-2 border border-gray-300 rounded-lg md:w-5/12 dark:border-gray-700"
+            class="m-2 w-full flex-grow rounded-lg border border-gray-300 p-4 dark:border-gray-700 md:w-5/12"
           >
             <div>
               <div
                 class="flex flex-row"
               >
                 <div
-                  class="flex flex-col flex-grow text-lg font-semibold"
+                  class="flex flex-grow flex-col text-lg font-semibold"
                 >
                   <a
                     href="https://github.com/archilkarchava/astragal-sanity-studio"
@@ -135,14 +135,14 @@ exports[`Home page matches snapshot 1`] = `
             </div>
           </li>
           <li
-            class="flex-grow w-full p-4 m-2 border border-gray-300 rounded-lg md:w-5/12 dark:border-gray-700"
+            class="m-2 w-full flex-grow rounded-lg border border-gray-300 p-4 dark:border-gray-700 md:w-5/12"
           >
             <div>
               <div
                 class="flex flex-row"
               >
                 <div
-                  class="flex flex-col flex-grow text-lg font-semibold"
+                  class="flex flex-grow flex-col text-lg font-semibold"
                 >
                   <a
                     href="https://github.com/archilkarchava/furnitur"
@@ -165,14 +165,14 @@ exports[`Home page matches snapshot 1`] = `
             </div>
           </li>
           <li
-            class="flex-grow w-full p-4 m-2 border border-gray-300 rounded-lg md:w-5/12 dark:border-gray-700"
+            class="m-2 w-full flex-grow rounded-lg border border-gray-300 p-4 dark:border-gray-700 md:w-5/12"
           >
             <div>
               <div
                 class="flex flex-row"
               >
                 <div
-                  class="flex flex-col flex-grow text-lg font-semibold"
+                  class="flex flex-grow flex-col text-lg font-semibold"
                 >
                   <a
                     href="https://github.com/archilkarchava/furnitur-firebase"
