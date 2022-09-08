@@ -39,7 +39,4 @@ module.exports = getConfig({
     })
     return config
   },
-  experimental: {
-    runtime: 'experimental-edge',
-  },
 })
