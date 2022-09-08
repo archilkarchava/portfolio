@@ -1886,8 +1886,14 @@ input CheckRunFilter {
   """Filters the check runs by this type."""
   checkType: CheckRunType
 
-  """Filters the check runs by this status."""
+  """Filters the check runs by these conclusions."""
+  conclusions: [CheckConclusionState!]
+
+  """Filters the check runs by this status. Superceded by statuses."""
   status: CheckStatusState
+
+  """Filters the check runs by this status. Overrides status."""
+  statuses: [CheckStatusState!]
 }
 
 """Descriptive details about the check run."""
@@ -2540,8 +2546,15 @@ type Commit implements GitObject & Node & Subscribable & UniformResourceLocatabl
     path: String!
   ): Blame!
 
-  """The number of changed files in this commit."""
-  changedFiles: Int!
+  """
+  We recommend using the `changedFielsIfAvailable` field instead of `changedFiles`, as `changedFiles` will cause your request to return an error if GitHub is unable to calculate the number of changed files.
+  """
+  changedFiles: Int! @deprecated(reason: "`changedFiles` will be removed. Use `changedFilesIfAvailable` instead. Removal on 2023-01-01 UTC.")
+
+  """
+  The number of changed files in this commit. If GitHub is unable to calculate the number of changed files (for example due to a timeout), this will return `null`. We recommend using this field instead of `changedFiles`.
+  """
+  changedFilesIfAvailable: Int
 
   """The check suites associated with a commit."""
   checkSuites(
@@ -6656,6 +6669,39 @@ enum EnterpriseAdministratorRole {
   OWNER
 }
 
+"""
+The possible values for the enterprise allow private repository forking policy value.
+"""
+enum EnterpriseAllowPrivateRepositoryForkingPolicyValue {
+  """
+  Members can fork a repository to an organization within this enterprise.
+  """
+  ENTERPRISE_ORGANIZATIONS
+
+  """
+  Members can fork a repository to their enterprise-managed user account or an organization inside this enterprise.
+  """
+  ENTERPRISE_ORGANIZATIONS_USER_ACCOUNTS
+
+  """
+  Members can fork a repository to their user account or an organization, either inside or outside of this enterprise.
+  """
+  EVERYWHERE
+
+  """
+  Members can fork a repository only within the same organization (intra-org).
+  """
+  SAME_ORGANIZATION
+
+  """
+  Members can fork a repository to their user account or within the same organization.
+  """
+  SAME_ORGANIZATION_USER_ACCOUNTS
+
+  """Members can fork a repository to their user account."""
+  USER_ACCOUNTS
+}
+
 """Metadata for an audit entry containing enterprise account information."""
 interface EnterpriseAuditEntryData {
   """The HTTP path for this enterprise."""
@@ -7058,6 +7104,11 @@ type EnterpriseOwnerInfo {
     """The setting value to find organizations for."""
     value: Boolean!
   ): OrganizationConnection!
+
+  """
+  The value for the allow private repository forking policy on the enterprise.
+  """
+  allowPrivateRepositoryForkingSettingPolicyValue: EnterpriseAllowPrivateRepositoryForkingPolicyValue
 
   """
   The setting value for base repository permissions for organizations in this enterprise.
@@ -27844,6 +27895,37 @@ enum SquashMergeCommitTitle {
   PR_TITLE
 }
 
+"""Represents an SSH signature on a Commit or Tag."""
+type SshSignature implements GitSignature {
+  """Email used to sign this object."""
+  email: String!
+
+  """True if the signature is valid and verified by GitHub."""
+  isValid: Boolean!
+
+  """Hex-encoded fingerprint of the key that signed this object."""
+  keyFingerprint: String
+
+  """
+  Payload for GPG signing object. Raw ODB object without the signature header.
+  """
+  payload: String!
+
+  """ASCII-armored signature header from object."""
+  signature: String!
+
+  """GitHub user corresponding to the email signing this commit."""
+  signer: User
+
+  """
+  The state of this signature. `VALID` if signature is valid and verified by GitHub, otherwise represents reason why signature is considered invalid.
+  """
+  state: GitSignatureState!
+
+  """True if the signature was made with GitHub's signing key."""
+  wasSignedByGitHub: Boolean!
+}
+
 """Ways in which star connections can be ordered."""
 input StarOrder {
   """The direction in which to order nodes."""
@@ -30421,6 +30503,11 @@ input UpdateEnterpriseAllowPrivateRepositoryForkingSettingInput {
   The ID of the enterprise on which to set the allow private repository forking setting.
   """
   enterpriseId: ID!
+
+  """
+  The value for the allow private repository forking policy on the enterprise.
+  """
+  policyValue: EnterpriseAllowPrivateRepositoryForkingPolicyValue
 
   """
   The value for the allow private repository forking setting on the enterprise.
@@ -33239,6 +33326,26 @@ type Workflow implements Node {
   """The name of the workflow."""
   name: String!
 
+  """The runs of the workflow."""
+  runs(
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """Ordering options for the connection"""
+    orderBy: WorkflowRunOrder = {direction: DESC, field: CREATED_AT}
+  ): WorkflowRunConnection!
+
   """Identifies the date and time when the object was last updated."""
   updatedAt: DateTime!
 }
@@ -33305,6 +33412,45 @@ type WorkflowRun implements Node {
 
   """The workflow executed in this workflow run."""
   workflow: Workflow!
+}
+
+"""The connection type for WorkflowRun."""
+type WorkflowRunConnection {
+  """A list of edges."""
+  edges: [WorkflowRunEdge]
+
+  """A list of nodes."""
+  nodes: [WorkflowRun]
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """Identifies the total count of items in the connection."""
+  totalCount: Int!
+}
+
+"""An edge in a connection."""
+type WorkflowRunEdge {
+  """A cursor for use in pagination."""
+  cursor: String!
+
+  """The item at the end of the edge."""
+  node: WorkflowRun
+}
+
+"""Ways in which lists of workflow runs can be ordered upon return."""
+input WorkflowRunOrder {
+  """The direction in which to order workflow runs by the specified field."""
+  direction: OrderDirection!
+
+  """The field by which to order workflows."""
+  field: WorkflowRunOrderField!
+}
+
+"""Properties by which workflow run connections can be ordered."""
+enum WorkflowRunOrderField {
+  """Order workflow runs by most recently created"""
+  CREATED_AT
 }
 
 """A valid x509 certificate string"""
