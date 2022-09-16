@@ -81,9 +81,7 @@ exports[`Home page matches snapshot 1`] = `
                     rel="noopener noreferrer"
                     target="_blank"
                   >
-                    <span
-                      title="astragal-gatsby"
-                    >
+                    <span>
                       astragal-gatsby
                     </span>
                   </a>
@@ -111,9 +109,7 @@ exports[`Home page matches snapshot 1`] = `
                     rel="noopener noreferrer"
                     target="_blank"
                   >
-                    <span
-                      title="astragal-sanity-studio"
-                    >
+                    <span>
                       astragal-sanity-studio
                     </span>
                   </a>
@@ -149,9 +145,7 @@ exports[`Home page matches snapshot 1`] = `
                     rel="noopener noreferrer"
                     target="_blank"
                   >
-                    <span
-                      title="furnitur"
-                    >
+                    <span>
                       furnitur
                     </span>
                   </a>
@@ -179,9 +173,7 @@ exports[`Home page matches snapshot 1`] = `
                     rel="noopener noreferrer"
                     target="_blank"
                   >
-                    <span
-                      title="furnitur-firebase"
-                    >
+                    <span>
                       furnitur-firebase
                     </span>
                   </a>

@@ -122,7 +122,7 @@ export function Home({ name, email, pinnedRepositories }: Props) {
                               target="_blank"
                               rel="noopener noreferrer"
                             >
-                              <span title={repo.name}>{repo.name}</span>
+                              <span>{repo.name}</span>
                             </a>
                           </div>
                         </div>
